@@ -1,29 +1,24 @@
-<section class="collection-section">
-  <h2 class="section-title" style="text-align: center; font-family: var(--font-heading); margin-top: 40px;">
-    {{ section.settings.title }}
-  </h2>
-  
+<section class="container reveal" style="padding: 100px 0;">
+  <h2 class="section-title">{{ section.settings.title }}</h2>
   <div class="elite-grid">
-    {% for product in section.settings.collection.products limit: section.settings.products_to_show %}
-      {% render 'elite-product-card', product: product %}
-    {% else %}
-      {% for i in (1..4) %}
-        <div class="placeholder-card">{{ 'product-' | append: i | placeholder_svg_tag }}</div>
-      {% endfor %}
+    {% for product in section.settings.collection.products limit: section.settings.count %}
+      {% render 'product-card', product: product %}
     {% endfor %}
   </div>
 </section>
+
+<style>
+  .section-title { text-align: center; font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 50px; color: #fff; }
+</style>
 
 {% schema %}
 {
   "name": "Elite Collection",
   "settings": [
-    { "type": "text", "id": "title", "label": "Section Title", "default": "Featured Collection" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Featured Collection" },
     { "type": "collection", "id": "collection", "label": "Select Collection" },
-    { "type": "range", "id": "products_to_show", "min": 2, "max": 12, "step": 1, "label": "Products to show", "default": 4 }
+    { "type": "range", "id": "count", "min": 4, "max": 12, "default": 4, "label": "Show Number of Products" }
   ],
-  "presets": [
-    { "name": "Elite Collection" }
-  ]
+  "presets": [{"name": "Elite Collection"}]
 }
 {% endschema %}
