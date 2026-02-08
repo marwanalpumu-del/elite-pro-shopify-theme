@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "hero_banner": {
+      "type": "elite-hero",
+      "settings": {
+        "title": "الفخامة في كل تفصيل",
+        "sub_title": "مجموعة النخبة 2026",
+        "button_label": "تسوق الآن"
+      }
+    },
+    "featured_products": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "وصلنا حديثاً",
+        "product_limit": 4,
+        "view_all": true
+      }
+    }
+  },
+  "order": [
+    "hero_banner",
+    "featured_products"
+  ]
+}
