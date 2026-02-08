@@ -1,35 +1,115 @@
 <div class="elite-product-card glass-panel reveal">
-  <a href="{{ product.url }}" class="product-link">
+  <a href="{{ product.url }}" class="product-link-mask">
     <div class="product-image-wrapper">
       <img src="{{ product.featured_image | image_url: width: 800 }}" 
-           alt="{{ product.title }}" 
+           alt="{{ product.title | escape }}" 
            loading="lazy" 
            class="product-img">
       <div class="shine-effect"></div>
     </div>
-    
-    <div class="product-details">
-      <h3 class="product-title">{{ product.title }}</h3>
-      <p class="product-price">{{ product.price | money }}</p>
-      <span class="btn-elite add-to-cart-btn">{{ 'products.add_to_cart' | t }}</span>
-    </div>
   </a>
+    
+  <div class="product-details">
+    <a href="{{ product.url }}" style="text-decoration: none; color: inherit;">
+      <h3 class="product-title">{{ product.title }}</h3>
+    </a>
+    
+    <p class="product-price">{{ product.price | money_with_currency }}</p>
+    
+    <form method="post" action="/cart/add">
+      <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+      <button type="submit" class="btn-elite add-to-cart-btn">
+        {{ 'products.add_to_cart' | t }}
+      </button>
+    </form>
+  </div>
 </div>
 
 <style>
-  .elite-product-card { border-radius: 20px; overflow: hidden; transition: var(--transition-apple); position: relative; }
-  .elite-product-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); }
-  .product-image-wrapper { position: relative; overflow: hidden; aspect-ratio: 4/5; }
-  .product-img { width: 100%; height: 100%; object-fit: cover; transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-  .elite-product-card:hover .product-img { transform: scale(1.1); }
-  .product-details { padding: 20px; text-align: center; }
-  .product-title { font-size: 1rem; margin-bottom: 10px; font-weight: 300; }
-  .product-price { color: var(--primary-gold); font-weight: 700; margin-bottom: 15px; }
-  .add-to-cart-btn { padding: 8px 20px; font-size: 10px; }
-  .shine-effect {
-    position: absolute; inset: -100%;
-    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-    transform: rotate(45deg); transition: 0.7s;
+  .elite-product-card { 
+    border-radius: 20px; 
+    overflow: hidden; 
+    transition: var(--transition-apple); 
+    position: relative; 
+    background: var(--glass-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
-  .elite-product-card:hover .shine-effect { left: 100%; top: 100%; }
+
+  .elite-product-card:hover { 
+    transform: translateY(-10px); 
+    border-color: var(--primary-gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15); /* نيون ذهبي هادئ */
+  }
+
+  .product-image-wrapper { 
+    position: relative; 
+    overflow: hidden; 
+    aspect-ratio: 4/5; 
+    background: #000;
+  }
+
+  .product-img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); 
+  }
+
+  .elite-product-card:hover .product-img { 
+    transform: scale(1.08); 
+    opacity: 0.8;
+  }
+
+  .product-details { 
+    padding: 25px 15px; 
+    text-align: center; 
+    z-index: 2;
+    position: relative;
+  }
+
+  .product-title { 
+    font-size: 1.1rem; 
+    margin-bottom: 8px; 
+    font-weight: 400; 
+    letter-spacing: 0.5px;
+    color: #fff;
+  }
+
+  .product-price { 
+    color: var(--primary-gold); 
+    font-weight: 700; 
+    margin-bottom: 20px; 
+    font-size: 1.2rem;
+  }
+
+  .add-to-cart-btn { 
+    padding: 10px 25px; 
+    font-size: 11px; 
+    width: 90%;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  /* تأثير اللمعان الزجاجي */
+  .shine-effect {
+    position: absolute; 
+    top: 0; 
+    left: -150%; 
+    width: 50%; 
+    height: 100%; 
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+    transform: skewX(-25deg);
+    transition: 0.8s;
+  }
+
+  .elite-product-card:hover .shine-effect { 
+    left: 150%; 
+  }
+
+  /* تحسينات للجوال */
+  @media (max-width: 767px) {
+    .product-title { font-size: 0.9rem; }
+    .product-price { font-size: 1rem; }
+    .product-details { padding: 15px 10px; }
+  }
 </style>
