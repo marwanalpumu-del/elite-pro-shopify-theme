@@ -1,13 +1,4 @@
 {
-  "general": {
-    "search": "Search Luxury...",
-    "cart": "My Bag",
-    "checkout": "Complete Order"
-  },
-  "products": {
-    "product": {
-      "add_to_cart": "Add to Bag",
-      "sold_out": "Out of Stock"
-    }
-  }
+  "products": { "add_to_cart": "Add to Bag" },
+  "general": { "cart": { "item_count": "Bag [{{ count }}]" } }
 }
