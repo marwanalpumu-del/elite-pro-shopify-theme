@@ -1,24 +1,23 @@
 {
   "sections": {
-    "hero_banner": {
-      "type": "elite-hero",
+    "hero": {
+      "type": "hero-elite",
       "settings": {
-        "title": "الفخامة في كل تفصيل",
-        "sub_title": "مجموعة النخبة 2026",
-        "button_label": "تسوق الآن"
+        "title": "ELITE LUXURY",
+        "sub_title": "The Pinnacle of Elegance and Design",
+        "btn_text": "SHOP COLLECTION"
       }
     },
-    "featured_products": {
+    "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "وصلنا حديثاً",
-        "product_limit": 4,
-        "view_all": true
+        "title": "New Arrivals",
+        "count": 4
       }
     }
   },
   "order": [
-    "hero_banner",
-    "featured_products"
+    "hero",
+    "featured_collection"
   ]
 }
