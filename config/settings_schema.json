@@ -1,0 +1,27 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Elite Pro Shopify Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Elite Developer",
+    "theme_documentation_url": "https://help.shopify.com",
+    "theme_support_url": "https://help.shopify.com"
+  },
+  {
+    "name": "الألوان الأساسية",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_gold",
+        "label": "اللون الذهبي الرئيسي",
+        "default": "#d4af37"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "لون الخلفية",
+        "default": "#0a0a0a"
+      }
+    ]
+  }
+]
