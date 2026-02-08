@@ -1,38 +1,25 @@
 <!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}">
-  <head>
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
+<head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="canonical" href="{{ canonical_url }}">
-
-    {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-    {%- endif -%}
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>{{ page_title }} | {{ shop.name }}</title>
-
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
-
     {{ content_for_header }}
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     {{ 'theme-elite.css' | asset_url | stylesheet_tag }}
-  </head>
+</head>
+<body class="elite-dark-mode {% if request.locale.iso_code == 'ar' %}rtl-mode{% endif %}">
+    
+    <div id="preloader"><div class="loader-logo">{{ shop.name }}</div></div>
+    <div class="custom-cursor"></div>
 
-  <body>
-    {% section 'header' %}
+    {% section 'header-elite' %}
 
-    <main id="MainContent" role="main" tabindex="-1">
-      {{ content_for_layout }}
+    <main id="MainContent" role="main">
+        {{ content_for_layout }}
     </main>
 
-    {% section 'footer' %}
-
-    <script src="{{ 'elite-core.js' | asset_url }}" defer></script>
-  </body>
+    <script src="{{ 'theme-elite.js' | asset_url }}" defer></script>
+</body>
 </html>
