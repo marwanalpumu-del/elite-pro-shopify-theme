@@ -1,0 +1,4 @@
+{
+  "products": { "add_to_cart": "إضافة للحقيبة" },
+  "general": { "cart": { "item_count": "الحقيبة [{{ count }}]" } }
+}
