@@ -1,26 +1,62 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Elite Pro Shopify Theme",
+    "theme_name": "Elite Luxury",
     "theme_version": "1.0.0",
-    "theme_author": "Elite Developer",
-    "theme_documentation_url": "https://help.shopify.com",
-    "theme_support_url": "https://help.shopify.com"
+    "theme_author": "YourName",
+    "theme_documentation_url": "https://your-docs.com",
+    "theme_support_url": "https://your-support.com"
   },
   {
-    "name": "الألوان الأساسية",
+    "name": "Elite Branding (Luxury)",
     "settings": [
       {
-        "type": "color",
-        "id": "color_gold",
-        "label": "اللون الذهبي الرئيسي",
-        "default": "#d4af37"
+        "type": "header",
+        "content": "Core Luxury Colors"
       },
       {
         "type": "color",
-        "id": "color_bg",
-        "label": "لون الخلفية",
-        "default": "#0a0a0a"
+        "id": "gold_primary",
+        "label": "Primary Gold Accent",
+        "default": "#D4AF37",
+        "info": "Used for buttons, icons, and titles."
+      },
+      {
+        "type": "color",
+        "id": "neon_color",
+        "label": "Neon Glow Color",
+        "default": "#00f2ff",
+        "info": "Used for the custom cursor and hover effects."
+      },
+      {
+        "type": "header",
+        "content": "Glassmorphism Effects"
+      },
+      {
+        "type": "range",
+        "id": "blur_intensity",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Glass Blur Power",
+        "default": 25
+      },
+      {
+        "type": "header",
+        "content": "Typography"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "label": "Header Font",
+        "default": "playfair_display_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_base_font",
+        "label": "Body Font",
+        "default": "montserrat_n4"
       }
     ]
   }
