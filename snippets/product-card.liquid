@@ -1,21 +1,35 @@
-<div class="elite-product-card">
-  <a href="{{ product.url }}" class="product-card-link">
-    <div class="product-card-image-wrapper">
-      {%- if product.featured_media -%}
-        <img src="{{ product.featured_media | image_url: width: 600 }}" alt="{{ product.featured_media.alt }}" class="primary-image" loading="lazy">
-        {%- if product.media[1] != blank -%}
-          <img src="{{ product.media[1] | image_url: width: 600 }}" alt="{{ product.title }}" class="secondary-image" loading="lazy">
-        {%- endif -%}
-      {%- else -%}
-        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
-      {%- endif -%}
+<div class="elite-product-card glass-panel reveal">
+  <a href="{{ product.url }}" class="product-link">
+    <div class="product-image-wrapper">
+      <img src="{{ product.featured_image | image_url: width: 800 }}" 
+           alt="{{ product.title }}" 
+           loading="lazy" 
+           class="product-img">
+      <div class="shine-effect"></div>
     </div>
-
-    <div class="product-card-info">
-      <h3 class="product-card-title">{{ product.title }}</h3>
-      <div class="product-card-price">
-        <span class="price-current">{{ product.price | money }}</span>
-      </div>
+    
+    <div class="product-details">
+      <h3 class="product-title">{{ product.title }}</h3>
+      <p class="product-price">{{ product.price | money }}</p>
+      <span class="btn-elite add-to-cart-btn">{{ 'products.add_to_cart' | t }}</span>
     </div>
   </a>
 </div>
+
+<style>
+  .elite-product-card { border-radius: 20px; overflow: hidden; transition: var(--transition-apple); position: relative; }
+  .elite-product-card:hover { transform: translateY(-10px); border-color: var(--primary-gold); }
+  .product-image-wrapper { position: relative; overflow: hidden; aspect-ratio: 4/5; }
+  .product-img { width: 100%; height: 100%; object-fit: cover; transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+  .elite-product-card:hover .product-img { transform: scale(1.1); }
+  .product-details { padding: 20px; text-align: center; }
+  .product-title { font-size: 1rem; margin-bottom: 10px; font-weight: 300; }
+  .product-price { color: var(--primary-gold); font-weight: 700; margin-bottom: 15px; }
+  .add-to-cart-btn { padding: 8px 20px; font-size: 10px; }
+  .shine-effect {
+    position: absolute; inset: -100%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg); transition: 0.7s;
+  }
+  .elite-product-card:hover .shine-effect { left: 100%; top: 100%; }
+</style>
