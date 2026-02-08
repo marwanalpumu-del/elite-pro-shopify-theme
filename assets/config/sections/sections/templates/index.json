@@ -1,9 +1,0 @@
-{
-  "sections": {
-    "hero": {
-      "type": "elite-hero",
-      "settings": {}
-    }
-  },
-  "order": ["hero"]
-}
