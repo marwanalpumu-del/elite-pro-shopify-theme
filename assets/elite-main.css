@@ -1,0 +1,48 @@
+:root {
+  --gold: #d4af37;
+  --dark: #0a0a0a;
+  --glass: rgba(255, 255, 255, 0.05);
+  --border-glass: rgba(255, 255, 255, 0.1);
+  --text-white: #ffffff;
+}
+
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  background: var(--dark);
+  color: var(--text-white);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* تأثير الزجاج */
+.glass-effect {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: 15px;
+}
+
+.gold-text {
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: #000;
+  padding: 12px 35px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.btn-gold:hover { opacity: 0.8; }
