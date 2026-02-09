@@ -1,23 +1,14 @@
 {
   "sections": {
     "hero": {
-      "type": "hero-elite",
+      "type": "elite-hero",
       "settings": {
-        "title": "ELITE LUXURY",
-        "sub_title": "The Pinnacle of Elegance and Design",
-        "btn_text": "SHOP COLLECTION"
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "New Arrivals",
-        "count": 4
+        "title": "ELITE PRO LUXURY",
+        "btn_text": "SHOP NOW"
       }
     }
   },
   "order": [
-    "hero",
-    "featured_collection"
+    "hero"
   ]
 }
