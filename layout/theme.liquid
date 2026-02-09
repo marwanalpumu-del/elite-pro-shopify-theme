@@ -2,8 +2,30 @@
 <html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ page_title }} | Elite Pro Shopify Theme</title>
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
 
     {{ content_for_header }}
     
@@ -11,20 +33,79 @@
     
     <style>
       :root {
+        /* Color Palette & Settings from Theme Customizer */
         --primary-gold: {{ settings.gold_primary | default: '#D4AF37' }};
+        --bg-dark: #0a0a0a;
+        --text-light: #ffffff;
+        --glass-bg: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.1);
         --glass-blur: {{ settings.blur_intensity | default: 25 }}px;
+        --transition-main: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       }
+
+      /* Base Layout Styles */
+      body {
+        margin: 0;
+        background-color: var(--bg-dark);
+        color: var(--text-light);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+      
+      .glass-panel {
+        background: var(--glass-bg);
+        backdrop-filter: blur(var(--glass-blur));
+        -webkit-backdrop-filter: blur(var(--glass-blur));
+        border: 1px solid var(--glass-border);
+      }
+
+      /* Smooth Scroll & Animations Setup */
+      html { scroll-behavior: smooth; }
+      .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition-main); }
+      .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="elite-pro-dark">
+<body class="elite-pro-dark gradient-bg">
     
-    <div id="preloader"><div class="loader-logo">ELITE PRO</div></div>
+    <div id="preloader">
+      <div class="loader-content">
+        <h1 class="loader-logo">ELITE PRO</h1>
+        <div class="loader-bar"></div>
+      </div>
+    </div>
+
     <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
 
     {% section 'header-elite' %}
-    <main id="MainContent">{{ content_for_layout }}</main>
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
     {% section 'footer-elite' %}
 
     <script src="{{ 'elite-pro.js' | asset_url }}" defer></script>
+    
+    <script>
+      // Page Preloader Logic
+      window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
+        setTimeout(() => {
+          preloader.style.opacity = '0';
+          setTimeout(() => preloader.style.display = 'none', 500);
+        }, 1000);
+      });
+
+      // Custom Cursor Logic
+      const cursor = document.querySelector('.custom-cursor');
+      document.addEventListener('mousemove', e => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+      });
+    </script>
 </body>
 </html>
