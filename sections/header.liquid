@@ -1,48 +1,199 @@
-<header class="header-elite-pro glass-panel">
+{% comment %}
+  Elite Pro - Cinematic Navigation Header
+  Features: Sticky effect, Glassmorphism, Responsive design.
+{% endcomment %}
+
+<header class="header-elite-pro glass-panel" id="EliteHeader">
   <div class="header-container container">
+    
+    <!-- Branding Area -->
     <div class="logo-area">
       <a href="/" class="elite-logo-link">
         {%- if section.settings.logo != blank -%}
-          <img src="{{ section.settings.logo | img_url: '300x' }}" alt="{{ shop.name }}">
+          <img src="{{ section.settings.logo | image_url: width: 300 }}" 
+               alt="{{ shop.name }}" 
+               class="elite-logo-img">
         {%- else -%}
           <span class="text-logo">ELITE PRO</span>
         {%- endif -%}
       </a>
     </div>
 
+    <!-- Main Navigation -->
     <nav class="navigation-menu">
       <ul class="nav-links">
         {%- for link in linklists[section.settings.menu].links -%}
-          <li><a href="{{ link.url }}" class="nav-item-link">{{ link.title }}</a></li>
+          <li class="nav-item">
+            <a href="{{ link.url }}" class="nav-item-link {% if link.active %}active-link{% endif %}">
+              {{ link.title }}
+            </a>
+          </li>
         {%- endfor -%}
       </ul>
     </nav>
 
+    <!-- Header Actions -->
     <div class="header-actions">
-      <a href="/cart" class="cart-trigger">
+      <a href="/cart" class="cart-trigger glass-panel">
         <span class="bag-icon">BAG</span>
-        <span class="bag-count">[{{ cart.item_count }}]</span>
+        <span class="bag-count" id="CartCount">[{{ cart.item_count }}]</span>
       </a>
+      
+      <!-- Mobile Toggle -->
+      <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </div>
 </header>
 
 <style>
-  .header-elite-pro { position: fixed; top: 15px; left: 5%; right: 5%; z-index: 1000; padding: 15px 40px; border-radius: 100px; margin: 0 auto; }
-  .header-container { display: flex; justify-content: space-between; align-items: center; }
-  .text-logo { font-family: 'Playfair Display', serif; font-weight: 900; color: var(--primary-gold); font-size: 1.5rem; letter-spacing: 2px; }
-  .nav-links { display: flex; list-style: none; gap: 30px; }
-  .nav-item-link { color: #fff; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; font-weight: 600; transition: 0.3s; }
-  .nav-item-link:hover { color: var(--primary-gold); }
-  .cart-trigger { color: #fff; text-decoration: none; font-size: 0.8rem; border: 1px solid rgba(212,175,55,0.4); padding: 8px 20px; border-radius: 50px; }
+  /* Header Base Styles */
+  .header-elite-pro { 
+    position: fixed; 
+    top: 20px; 
+    left: 5%; 
+    right: 5%; 
+    z-index: 2000; 
+    padding: 12px 40px; 
+    border-radius: 100px; 
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Sticky State on Scroll */
+  .header-elite-pro.is-scrolled {
+    top: 10px;
+    padding: 8px 30px;
+    background: rgba(0, 0, 0, 0.85);
+    border-color: var(--primary-gold, #D4AF37);
+  }
+
+  .header-container { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+  }
+
+  /* Logo Styling */
+  .text-logo { 
+    font-family: 'Playfair Display', serif; 
+    font-weight: 900; 
+    color: var(--primary-gold, #D4AF37); 
+    font-size: 1.4rem; 
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+  .elite-logo-img { height: 40px; width: auto; object-fit: contain; }
+
+  /* Navigation Links */
+  .nav-links { display: flex; list-style: none; gap: 35px; margin: 0; padding: 0; }
+  .nav-item-link { 
+    color: rgba(255,255,255,0.8); 
+    text-decoration: none; 
+    font-size: 0.75rem; 
+    text-transform: uppercase; 
+    font-weight: 600; 
+    letter-spacing: 1.5px;
+    transition: 0.3s;
+    position: relative;
+  }
+  .nav-item-link:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--primary-gold, #D4AF37);
+    transition: 0.3s;
+  }
+  .nav-item-link:hover, .nav-item-link.active-link { color: #fff; }
+  .nav-item-link:hover:after { width: 100%; }
+
+  /* Cart & Actions */
+  .cart-trigger { 
+    color: #fff; 
+    text-decoration: none; 
+    font-size: 0.75rem; 
+    padding: 10px 25px; 
+    border-radius: 50px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: 0.3s;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+  }
+  .cart-trigger:hover { 
+    background: var(--primary-gold, #D4AF37); 
+    color: #000;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  }
+
+  /* Mobile Responsive Elements */
+  .mobile-menu-toggle { 
+    display: none; 
+    flex-direction: column; 
+    gap: 5px; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    padding: 5px;
+  }
+  .mobile-menu-toggle span { 
+    display: block; 
+    width: 25px; 
+    height: 2px; 
+    background: #fff; 
+    border-radius: 2px; 
+    transition: 0.3s;
+  }
+
+  @media (max-width: 1024px) {
+    .navigation-menu { display: none; }
+    .mobile-menu-toggle { display: flex; }
+    .header-elite-pro { padding: 12px 25px; }
+  }
 </style>
+
+<script>
+  // Sticky Header Scroll Animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.getElementById('EliteHeader');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+    });
+  });
+</script>
 
 {% schema %}
 {
   "name": "Elite Header",
   "settings": [
-    { "type": "image_picker", "id": "logo", "label": "Logo Image" },
-    { "type": "link_list", "id": "menu", "label": "Main Menu", "default": "main-menu" }
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main Menu",
+      "default": "main-menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Elite Header"
+    }
   ]
 }
 {% endschema %}
