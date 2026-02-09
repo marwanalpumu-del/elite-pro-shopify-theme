@@ -1,24 +1,141 @@
-<section class="container reveal" style="padding: 100px 0;">
-  <h2 class="section-title">{{ section.settings.title }}</h2>
-  <div class="elite-grid">
-    {% for product in section.settings.collection.products limit: section.settings.count %}
-      {% render 'product-card', product: product %}
-    {% endfor %}
+{% comment %}
+  Elite Pro - Featured Collection Section
+  Features: Staggered product animations, responsive grid, luxury typography.
+{% endcomment %}
+
+<section class="elite-collection-section section-{{ section.id }} reveal-container">
+  <div class="container">
+    
+    {% if section.settings.title != blank %}
+      <header class="collection-header reveal-item">
+        <h2 class="section-title gold-glow">{{ section.settings.title }}</h2>
+        <div class="title-underline"></div>
+      </header>
+    {% endif %}
+
+    <div class="elite-grid">
+      {%- assign featured_collection = collections[section.settings.collection] -%}
+      
+      {% for product in section.settings.collection.products limit: section.settings.count %}
+        <div class="product-item-wrapper reveal-item">
+          {% render 'product-card', product: product %}
+        </div>
+      {% else %}
+        {% comment %} Placeholder state if no collection is selected {% endcomment %}
+        {% for i in (1..section.settings.count) %}
+          <div class="product-item-wrapper reveal-item">
+            <div class="glass-panel" style="height: 400px; display: flex; align-items: center; justify-content: center;">
+              <p style="opacity: 0.5;">Product Placeholder</p>
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+    {% if section.settings.show_view_all and section.settings.collection.products_count > section.settings.count %}
+      <div class="view-all-wrapper reveal-item">
+        <a href="{{ section.settings.collection.url }}" class="btn-elite-outline">
+          VIEW ALL PIECES
+        </a>
+      </div>
+    {% endif %}
+
   </div>
 </section>
 
 <style>
-  .section-title { text-align: center; font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 50px; color: #fff; }
+  .elite-collection-section { padding: 100px 0; background: transparent; overflow: hidden; }
+  
+  /* Header Styling */
+  .collection-header { text-align: center; margin-bottom: 60px; }
+  .section-title { 
+    font-family: 'Playfair Display', serif; 
+    font-size: clamp(2rem, 4vw, 3rem); 
+    color: #fff; 
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+  }
+  .gold-glow { text-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+  .title-underline { 
+    width: 60px; height: 2px; background: var(--primary-gold, #D4AF37); 
+    margin: 0 auto; box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  }
+
+  /* Grid Layout */
+  .elite-grid { 
+    display: grid; 
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr); 
+    gap: 30px; 
+    padding: 0 5%;
+  }
+
+  /* Responsive Grid */
+  @media (max-width: 1024px) {
+    .elite-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .elite-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .elite-collection-section { padding: 60px 0; }
+  }
+
+  .view-all-wrapper { text-align: center; margin-top: 60px; }
+  .btn-elite-outline {
+    display: inline-block; padding: 12px 35px; border: 1px solid var(--primary-gold);
+    color: #fff; text-decoration: none; border-radius: 50px; font-weight: bold;
+    letter-spacing: 2px; font-size: 0.8rem; transition: 0.4s;
+  }
+  .btn-elite-outline:hover { background: var(--primary-gold); color: #000; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+
+  /* --- Advanced Animations --- */
+  .reveal-item {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-item.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger effect: Adds delay for each product item automatically */
+  .product-item-wrapper:nth-child(1) { transition-delay: 0.1s; }
+  .product-item-wrapper:nth-child(2) { transition-delay: 0.2s; }
+  .product-item-wrapper:nth-child(3) { transition-delay: 0.3s; }
+  .product-item-wrapper:nth-child(4) { transition-delay: 0.4s; }
+  .product-item-wrapper:nth-child(5) { transition-delay: 0.5s; }
+  .product-item-wrapper:nth-child(6) { transition-delay: 0.6s; }
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const collectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const items = entry.target.querySelectorAll('.reveal-item');
+        items.forEach((item, index) => {
+          // Additional slight delay for items in the grid
+          item.classList.add('active');
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  const section = document.querySelector('.section-{{ section.id }}');
+  if (section) collectionObserver.observe(section);
+});
+</script>
 
 {% schema %}
 {
-  "name": "Elite Collection",
+  "name": "Elite Collection Pro",
   "settings": [
     { "type": "text", "id": "title", "label": "Heading", "default": "Featured Collection" },
     { "type": "collection", "id": "collection", "label": "Select Collection" },
-    { "type": "range", "id": "count", "min": 4, "max": 12, "default": 4, "label": "Show Number of Products" }
+    { "type": "range", "id": "count", "min": 2, "max": 12, "default": 4, "label": "Show Number of Products" },
+    { "type": "range", "id": "columns_desktop", "min": 2, "max": 5, "default": 4, "label": "Columns on Desktop" },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show 'View All' Button", "default": true }
   ],
-  "presets": [{"name": "Elite Collection"}]
+  "presets": [{"name": "Elite Collection Pro"}]
 }
 {% endschema %}
