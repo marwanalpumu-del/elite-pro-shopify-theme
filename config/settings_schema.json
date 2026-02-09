@@ -4,21 +4,35 @@
     "theme_name": "Elite Pro Shopify Theme",
     "theme_version": "1.0.0",
     "theme_author": "Elite Developer",
-    "theme_documentation_url": "https:\/\/your-docs-link.com"
+    "theme_documentation_url": "https://your-docs-link.com"
   },
   {
     "name": "Elite Pro Branding",
     "settings": [
       {
+        "type": "header",
+        "content": "Visual Identity"
+      },
+      {
         "type": "image_picker",
         "id": "favicon",
-        "label": "Favicon"
+        "label": "Favicon Image"
       },
       {
         "type": "color",
         "id": "gold_primary",
         "label": "Gold Accent Color",
         "default": "#D4AF37"
+      },
+      {
+        "type": "color",
+        "id": "bg_dark",
+        "label": "Global Background Color",
+        "default": "#050505"
+      },
+      {
+        "type": "header",
+        "content": "Glassmorphism Settings"
       },
       {
         "type": "range",
@@ -29,6 +43,46 @@
         "unit": "px",
         "label": "Glass Blur Intensity",
         "default": 25
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Font Families"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "label": "Header Font",
+        "default": "playfair_display_n9"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_base_font",
+        "label": "Body Font",
+        "default": "plus_jakarta_sans_n4"
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social Links"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "X (Twitter) URL"
       }
     ]
   }
