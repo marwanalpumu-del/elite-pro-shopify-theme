@@ -1,0 +1,35 @@
+/*
+Theme Name: Elite Pro Shopify Theme
+Description: Cinematic Luxury Design for Shopify OS 2.0
+*/
+
+:root {
+    --transition-apple: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body { background: #050505; color: #fff; margin: 0; font-family: sans-serif; }
+
+/* Elite Pro Glass Panel */
+.glass-panel { 
+    background: rgba(255, 255, 255, 0.03); 
+    backdrop-filter: blur(var(--glass-blur)); 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+}
+
+/* Elite Pro Button */
+.btn-elite {
+    background: var(--primary-gold);
+    color: #000;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    transition: var(--transition-apple);
+}
+
+.btn-elite:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3); }
+
+/* Preloader & Cursor */
+#preloader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; }
+.custom-cursor { width: 20px; height: 20px; border: 1px solid var(--primary-gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); }
