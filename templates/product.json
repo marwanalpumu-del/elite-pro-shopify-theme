@@ -5,7 +5,7 @@
       "settings": {}
     },
     "recommendations": {
-      "type": "featured-collection",
+      "type": "elite-collection",
       "settings": {
         "title": "You May Also Like",
         "count": 4
