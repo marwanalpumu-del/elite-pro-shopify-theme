@@ -1,106 +1,48 @@
-<header class="elite-header glass-effect">
-  <div class="container header-wrapper">
-    
-    <div class="header-logo">
-      <a href="/" class="gold-text logo-link">
-        {% if section.settings.logo_text != blank %}
-          {{ section.settings.logo_text }}
-        {% else %}
-          {{ shop.name }}
-        {% endif %}
+<header class="header-elite-pro glass-panel">
+  <div class="header-container container">
+    <div class="logo-area">
+      <a href="/" class="elite-logo-link">
+        {%- if section.settings.logo != blank -%}
+          <img src="{{ section.settings.logo | img_url: '300x' }}" alt="{{ shop.name }}">
+        {%- else -%}
+          <span class="text-logo">ELITE PRO</span>
+        {%- endif -%}
       </a>
     </div>
 
-    <nav class="header-nav">
-      <ul class="nav-list">
-        {% for link in linklists.main-menu.links %}
-          <li><a href="{{ link.url }}" class="nav-link">{{ link.title }}</a></li>
-        {% else %}
-          <li><a href="/" class="nav-link">الرئيسية</a></li>
-          <li><a href="/collections/all" class="nav-link">المتجر</a></li>
-        {% endfor %}
+    <nav class="navigation-menu">
+      <ul class="nav-links">
+        {%- for link in linklists[section.settings.menu].links -%}
+          <li><a href="{{ link.url }}" class="nav-item-link">{{ link.title }}</a></li>
+        {%- endfor -%}
       </ul>
     </nav>
 
-    <div class="header-icons">
-      <a href="/cart" class="cart-icon">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
+    <div class="header-actions">
+      <a href="/cart" class="cart-trigger">
+        <span class="bag-icon">BAG</span>
+        <span class="bag-count">[{{ cart.item_count }}]</span>
       </a>
     </div>
-
   </div>
 </header>
 
 <style>
-  .elite-header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 15px 0;
-    transition: all 0.3s ease;
-  }
-
-  .header-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo-link {
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-decoration: none;
-    letter-spacing: 1px;
-  }
-
-  .nav-list {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-    margin: 0;
-    padding: 0;
-  }
-
-  .nav-link {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-
-  .nav-link:hover {
-    color: var(--gold);
-  }
-
-  .cart-icon {
-    color: var(--gold);
-    display: flex;
-    align-items: center;
-  }
-
-  /* تحسينات للجوال */
-  @media (max-width: 768px) {
-    .nav-list {
-      display: none; /* يمكننا لاحقاً إضافة قائمة جانبية للجوال */
-    }
-  }
+  .header-elite-pro { position: fixed; top: 15px; left: 5%; right: 5%; z-index: 1000; padding: 15px 40px; border-radius: 100px; margin: 0 auto; }
+  .header-container { display: flex; justify-content: space-between; align-items: center; }
+  .text-logo { font-family: 'Playfair Display', serif; font-weight: 900; color: var(--primary-gold); font-size: 1.5rem; letter-spacing: 2px; }
+  .nav-links { display: flex; list-style: none; gap: 30px; }
+  .nav-item-link { color: #fff; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; font-weight: 600; transition: 0.3s; }
+  .nav-item-link:hover { color: var(--primary-gold); }
+  .cart-trigger { color: #fff; text-decoration: none; font-size: 0.8rem; border: 1px solid rgba(212,175,55,0.4); padding: 8px 20px; border-radius: 50px; }
 </style>
 
 {% schema %}
 {
   "name": "Elite Header",
   "settings": [
-    {
-      "type": "text",
-      "id": "logo_text",
-      "label": "نص الشعار البديل",
-      "default": "ELITE"
-    }
+    { "type": "image_picker", "id": "logo", "label": "Logo Image" },
+    { "type": "link_list", "id": "menu", "label": "Main Menu", "default": "main-menu" }
   ]
 }
 {% endschema %}
