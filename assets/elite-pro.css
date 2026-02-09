@@ -1,35 +1,173 @@
 /*
-Theme Name: Elite Pro Shopify Theme
-Description: Cinematic Luxury Design for Shopify OS 2.0
+  Theme Name: Elite Pro Shopify Theme
+  Version: 1.0.0
+  Author: Elite Pro Team
+  Description: High-end Cinematic Luxury Design
 */
 
+/* 1. Global Reset & Variables */
 :root {
+    --primary-gold: #D4AF37;
+    --gold-glow: rgba(212, 175, 55, 0.4);
+    --bg-dark: #050505;
+    --text-light: #f5f5f5;
     --transition-apple: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    --glass-blur: 20px;
 }
 
-body { background: #050505; color: #fff; margin: 0; font-family: sans-serif; }
+* { box-sizing: border-box; }
 
-/* Elite Pro Glass Panel */
+body { 
+    background: var(--bg-dark); 
+    color: var(--text-light); 
+    margin: 0; 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 2. Layout Containers */
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+.elite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* 3. Typography */
+h1, h2, h3, .section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 20px 0;
+}
+
+.gold-text {
+    color: var(--primary-gold);
+    background: linear-gradient(45deg, #D4AF37, #F2D479);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* 4. Glassmorphism Components */
 .glass-panel { 
     background: rgba(255, 255, 255, 0.03); 
     backdrop-filter: blur(var(--glass-blur)); 
+    -webkit-backdrop-filter: blur(var(--glass-blur));
     border: 1px solid rgba(255, 255, 255, 0.1); 
+    border-radius: 20px;
 }
 
-/* Elite Pro Button */
+/* 5. Buttons & Interactive Elements */
 .btn-elite {
     background: var(--primary-gold);
     color: #000;
-    padding: 15px 40px;
+    padding: 16px 45px;
     border-radius: 50px;
-    font-weight: bold;
+    font-weight: 800;
     text-decoration: none;
     display: inline-block;
     transition: var(--transition-apple);
+    border: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
 }
 
-.btn-elite:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3); }
+.btn-elite:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 15px 30px var(--gold-glow);
+    filter: brightness(1.1);
+}
 
-/* Preloader & Cursor */
-#preloader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; }
-.custom-cursor { width: 20px; height: 20px; border: 1px solid var(--primary-gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); }
+.btn-elite-outline {
+    background: transparent;
+    border: 1px solid var(--primary-gold);
+    color: var(--primary-gold);
+    padding: 14px 40px;
+    border-radius: 50px;
+    transition: var(--transition-apple);
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.btn-elite-outline:hover {
+    background: var(--primary-gold);
+    color: #000;
+}
+
+/* 6. Animations (Reveal on Scroll) */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: var(--transition-apple);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 7. Preloader UI */
+#preloader { 
+    position: fixed; 
+    inset: 0; 
+    background: #000; 
+    z-index: 9999; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.loader-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--primary-gold);
+    letter-spacing: 10px;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(0.98); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+/* 8. Custom Cursor (Premium Desktop Experience) */
+.custom-cursor { 
+    width: 25px; 
+    height: 25px; 
+    border: 1.5px solid var(--primary-gold); 
+    border-radius: 50%; 
+    position: fixed; 
+    pointer-events: none; 
+    z-index: 10000; 
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background 0.3s;
+}
+
+/* Expand cursor on hover links */
+body:has(a:hover) .custom-cursor {
+    width: 50px;
+    height: 50px;
+    background: rgba(212, 175, 55, 0.1);
+}
+
+/* 9. Utility Classes */
+.text-center { text-align: center; }
+.margin-top-lg { margin-top: 80px; }
+.padding-bottom-lg { padding-bottom: 80px; }
+
+/* 10. Responsive Tweaks */
+@media (max-width: 768px) {
+    .container { padding: 0 20px; }
+    .btn-elite { width: 100%; text-align: center; }
+    .custom-cursor { display: none; } /* Disable cursor on touch devices */
+}
