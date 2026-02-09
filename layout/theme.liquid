@@ -23,34 +23,53 @@
 
     {% render 'meta-tags' %}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
-
-    {{ content_for_header }}
-    
-    {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
-    
+    {%- comment -%} 
+      Dynamic Font Loading from Theme Settings
+    {%- endcomment -%}
     <style>
+      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+      {{ settings.type_base_font | font_face: font_display: 'swap' }}
+      
+      {%- assign header_font_bold = settings.type_header_font | font_modify: 'weight', 'bold' -%}
+      {% if header_font_bold %}
+        {{ header_font_bold | font_face: font_display: 'swap' }}
+      {% endif %}
+
       :root {
-        /* Color Palette & Settings from Theme Customizer */
+        /* Color Palette */
         --primary-gold: {{ settings.gold_primary | default: '#D4AF37' }};
-        --bg-dark: #0a0a0a;
+        --bg-dark: {{ settings.bg_dark | default: '#050505' }};
         --text-light: #ffffff;
+        
+        /* Typography - Dynamic from Font Picker */
+        --font-header-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+        --font-body-family: {{ settings.type_base_font.family }}, {{ settings.type_base_font.fallback_families }};
+        --font-body-style: {{ settings.type_base_font.style }};
+        --font-body-weight: {{ settings.type_base_font.weight }};
+
+        /* Glassmorphism */
         --glass-bg: rgba(255, 255, 255, 0.03);
         --glass-border: rgba(255, 255, 255, 0.1);
         --glass-blur: {{ settings.blur_intensity | default: 25 }}px;
+        
+        /* Transitions */
         --transition-main: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      /* Base Layout Styles */
+      /* Global Layout */
       body {
         margin: 0;
         background-color: var(--bg-dark);
         color: var(--text-light);
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-family: var(--font-body-family);
+        font-style: var(--font-body-style);
+        font-weight: var(--font-body-weight);
         overflow-x: hidden;
         line-height: 1.6;
+      }
+
+      h1, h2, h3, h4, h5, h6, .section-title {
+        font-family: var(--font-header-family);
       }
 
       .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
@@ -62,13 +81,15 @@
         border: 1px solid var(--glass-border);
       }
 
-      /* Smooth Scroll & Animations Setup */
-      html { scroll-behavior: smooth; }
+      /* Animation reveal classes */
       .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition-main); }
       .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
+
+    {{ content_for_header }}
+    {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
 </head>
-<body class="elite-pro-dark gradient-bg">
+<body class="elite-pro-dark">
     
     <div id="preloader">
       <div class="loader-content">
@@ -78,7 +99,6 @@
     </div>
 
     <div class="custom-cursor"></div>
-    <div class="custom-cursor-follower"></div>
 
     {% section 'header-elite' %}
 
@@ -89,23 +109,5 @@
     {% section 'footer-elite' %}
 
     <script src="{{ 'elite-pro.js' | asset_url }}" defer></script>
-    
-    <script>
-      // Page Preloader Logic
-      window.addEventListener('load', () => {
-        const preloader = document.getElementById('preloader');
-        setTimeout(() => {
-          preloader.style.opacity = '0';
-          setTimeout(() => preloader.style.display = 'none', 500);
-        }, 1000);
-      });
-
-      // Custom Cursor Logic
-      const cursor = document.querySelector('.custom-cursor');
-      document.addEventListener('mousemove', e => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-      });
-    </script>
 </body>
 </html>
