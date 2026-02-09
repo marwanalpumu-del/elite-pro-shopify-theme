@@ -4,10 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <title>{{ page_title }} | {{ shop.name }}</title>
+    
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">
+    {%- endif -%}
+
     {{ content_for_header }}
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Playfair+Display:wght@700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     {{ 'theme-elite.css' | asset_url | stylesheet_tag }}
+
+    <style>
+      :root {
+        --primary-gold: {{ settings.gold_primary | default: '#D4AF37' }};
+        --neon-blue: {{ settings.neon_color | default: '#00f2ff' }};
+        --glass-blur: {{ settings.blur_intensity | default: 25 }}px;
+      }
+    </style>
 </head>
 <body class="elite-dark-mode {% if request.locale.iso_code == 'ar' %}rtl-mode{% endif %}">
     
@@ -19,6 +32,8 @@
     <main id="MainContent" role="main">
         {{ content_for_layout }}
     </main>
+
+    {% section 'footer-elite' %}
 
     <script src="{{ 'theme-elite.js' | asset_url }}" defer></script>
 </body>
