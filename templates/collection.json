@@ -1,14 +1,16 @@
 {
   "sections": {
     "main": {
-      "type": "main-collection-product-grid",
-      "settings": {
-        "products_per_page": 16,
-        "image_ratio": "portrait"
-      }
+      "type": "main-cart-items",
+      "settings": {}
+    },
+    "footer": {
+      "type": "main-cart-footer",
+      "settings": {}
     }
   },
   "order": [
-    "main"
+    "main",
+    "footer"
   ]
 }
