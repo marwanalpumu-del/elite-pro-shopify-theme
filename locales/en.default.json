@@ -1,4 +1,12 @@
 {
-  "products": { "add_to_cart": "Add to Bag" },
-  "general": { "cart": { "item_count": "Bag [{{ count }}]" } }
+  "general": {
+    "theme_name": "Elite Pro",
+    "cart": {
+      "item_count": "BAG [{{ count }}]"
+    }
+  },
+  "products": {
+    "add_to_cart": "ADD TO BAG",
+    "sold_out": "SOLD OUT"
+  }
 }
