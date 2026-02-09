@@ -1,36 +1,25 @@
-<div class="elite-product-card glass-panel reveal">
-  <a href="{{ product.url }}" class="product-link">
-    <div class="product-image-wrapper">
-      <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.title }}" loading="lazy" class="product-img">
+<div class="elite-pro-card glass-panel">
+  <a href="{{ product.url }}" class="card-image-link">
+    <div class="image-inner">
+      <img src="{{ product.featured_image | img_url: '600x' }}" alt="{{ product.title }}" loading="lazy">
       <div class="shine-effect"></div>
     </div>
   </a>
-    
-  <div class="product-details">
-    <h3 class="product-title">{{ product.title }}</h3>
-    <p class="product-price">{{ product.price | money_with_currency }}</p>
+  <div class="card-info">
+    <h3 class="card-title">{{ product.title }}</h3>
+    <p class="card-price gold-text">{{ product.price | money }}</p>
     <form method="post" action="/cart/add">
-      <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-      <button type="submit" class="btn-elite add-to-cart-btn">
-        {{ 'products.add_to_cart' | t }}
-      </button>
+      <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+      <button type="submit" class="btn-elite-sm">ADD TO BAG</button>
     </form>
   </div>
 </div>
 
 <style>
-  .elite-product-card { border-radius: 20px; overflow: hidden; transition: var(--transition-apple); position: relative; }
-  .product-image-wrapper { position: relative; overflow: hidden; aspect-ratio: 4/5; }
-  .product-img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s ease; }
-  .elite-product-card:hover .product-img { transform: scale(1.1); }
-  .product-details { padding: 20px; text-align: center; }
-  .product-title { font-size: 1rem; margin-bottom: 10px; color: #fff; }
-  .product-price { color: var(--primary-gold); font-weight: 700; margin-bottom: 15px; }
-  
-  .shine-effect {
-    position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
-    transform: skewX(-25deg); transition: 0.8s;
-  }
-  .elite-product-card:hover .shine-effect { left: 150%; }
+  .elite-pro-card { border-radius: 20px; overflow: hidden; transition: 0.5s; }
+  .image-inner { position: relative; overflow: hidden; aspect-ratio: 1; }
+  .image-inner img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
+  .elite-pro-card:hover img { transform: scale(1.1); }
+  .card-info { padding: 25px; text-align: center; }
+  .btn-elite-sm { background: var(--primary-gold); border: none; padding: 10px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
 </style>
