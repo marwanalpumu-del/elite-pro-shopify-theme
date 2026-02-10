@@ -1,0 +1,22 @@
+<div class="predictive-search-wrapper" id="predictive-search-results" tabindex="-1">
+  <div class="search-results-overlay glass-panel">
+    <div class="results-header">
+      <span class="gold-text-small">SUGGESTIONS</span>
+      <div class="loading-spinner hidden"></div>
+    </div>
+    <div id="predictive-search-results-list" class="results-list">
+      </div>
+    <div class="results-footer">
+      <button type="submit" form="search-form" class="view-all-btn">SEE ALL RESULTS</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .predictive-search-wrapper { position: absolute; top: 100%; left: 0; width: 100%; display: none; z-index: 999; }
+  .search-results-overlay { padding: 20px; margin-top: 10px; border-radius: 15px; }
+  .results-list { margin: 15px 0; max-height: 300px; overflow-y: auto; }
+  .gold-text-small { font-size: 0.6rem; letter-spacing: 2px; opacity: 0.8; }
+  .view-all-btn { background: transparent; border: 1px solid var(--elite-gold-primary); color: #fff; width: 100%; padding: 10px; font-size: 0.7rem; cursor: pointer; transition: 0.3s; }
+  .view-all-btn:hover { background: var(--elite-gold-primary); color: #000; }
+</style>
