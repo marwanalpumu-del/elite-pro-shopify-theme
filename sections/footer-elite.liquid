@@ -1,117 +1,39 @@
-{% comment %}
-  Elite Pro - Cinematic Footer
-  Features: Social Media Integration, Glassmorphism, Dynamic Menus.
-{% endcomment %}
-
-<footer class="footer-elite glass-panel reveal">
-  <div class="container">
-    <div class="footer-grid">
-      
-      <div class="footer-col branding-col">
-        <h2 class="footer-logo gold-text">ELITE PRO</h2>
-        <p class="footer-bio">Defining the future of luxury commerce with cinematic experiences and premium quality.</p>
-        <div class="social-links">
-          {% if settings.social_instagram_link != blank %}
-            <a href="{{ settings.social_instagram_link }}" class="social-icon" aria-label="Instagram">IG</a>
-          {% endif %}
-          {% if settings.social_twitter_link != blank %}
-            <a href="{{ settings.social_twitter_link }}" class="social-icon" aria-label="X (Twitter)">X</a>
-          {% endif %}
-        </div>
-      </div>
-
-      <div class="footer-col">
-        <h3 class="footer-title">Navigation</h3>
-        <ul class="footer-menu">
-          {% for link in linklists.main-menu.links %}
-            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h3 class="footer-title">Support</h3>
-        <ul class="footer-menu">
-          <li><a href="/pages/contact">Contact Us</a></li>
-          <li><a href="/pages/shipping">Shipping Policy</a></li>
-          <li><a href="/pages/privacy">Privacy Policy</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col newsletter-col">
-        <h3 class="footer-title">Newsletter</h3>
-        <p>Subscribe to receive updates and exclusive offers.</p>
-        {% form 'customer', class: 'footer-newsletter-form' %}
-          <input type="email" name="contact[email]" placeholder="Your Email Address" required>
-          <button type="submit" class="btn-elite-sm">JOIN</button>
-        {% endform %}
-      </div>
-
+<footer class="elite-footer glass-panel">
+  <div class="container footer-grid">
+    <div class="footer-block">
+      <h3 class="gold-text">{{ shop.name }}</h3>
+      <p>The pinnacle of luxury e-commerce experience.</p>
+    </div>
+    
+    <div class="footer-block">
+      <h4>GUIDANCE</h4>
+      <ul class="footer-links">
+        <li><a href="/search">Search</a></li>
+        <li><a href="/pages/contact">Contact Us</a></li>
+        <li><a href="/pages/shipping">Shipping Policy</a></li>
+      </ul>
     </div>
 
-    <div class="footer-bottom">
-      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All Rights Reserved.</p>
+    <div class="footer-block newsletter">
+      <h4>NEWSLETTER</h4>
+      {% form 'customer' %}
+        <input type="email" name="contact[email]" placeholder="ENTER EMAIL" class="footer-input">
+        <button type="submit" class="gold-text">SUBSCRIBE</button>
+      {% endform %}
     </div>
+  </div>
+  <div class="footer-bottom text-center">
+    <p>&copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. ALL RIGHTS RESERVED.</p>
   </div>
 </footer>
 
 <style>
-  .footer-elite {
-    margin-top: 100px;
-    padding: 80px 0 30px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
-    gap: 40px;
-    margin-bottom: 60px;
-  }
-  .footer-logo { font-size: 1.8rem; letter-spacing: 5px; margin-bottom: 20px; }
-  .footer-bio { opacity: 0.6; font-size: 0.9rem; line-height: 1.8; }
-  
-  .footer-title {
-    font-size: 1.1rem;
-    margin-bottom: 25px;
-    font-family: var(--font-header-family);
-    color: var(--primary-gold);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-  }
-  
-  .footer-menu { list-style: none; padding: 0; margin: 0; }
-  .footer-menu li { margin-bottom: 12px; }
-  .footer-menu a { 
-    text-decoration: none; color: #fff; opacity: 0.7; 
-    font-size: 0.9rem; transition: var(--transition-main);
-  }
-  .footer-menu a:hover { opacity: 1; color: var(--primary-gold); padding-left: 5px; }
-
-  .social-links { display: flex; gap: 15px; margin-top: 25px; }
-  .social-icon {
-    width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.1);
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%; font-size: 0.8rem; font-weight: bold;
-    color: #fff; text-decoration: none; transition: 0.4s;
-  }
-  .social-icon:hover { background: var(--primary-gold); color: #000; transform: translateY(-3px); }
-
-  .footer-newsletter-form { display: flex; gap: 10px; margin-top: 20px; }
-  .footer-newsletter-form input {
-    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-    padding: 12px 15px; border-radius: 50px; color: #fff; flex: 1; outline: none;
-  }
-  .footer-bottom {
-    text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05);
-    font-size: 0.8rem; opacity: 0.4;
-  }
-
-  @media (max-width: 992px) {
-    .footer-grid { grid-template-columns: 1fr 1fr; }
-  }
-  @media (max-width: 576px) {
-    .footer-grid { grid-template-columns: 1fr; text-align: center; }
-    .social-links { justify-content: center; }
-    .footer-newsletter-form { flex-direction: column; }
-  }
+  .elite-footer { margin-top: 100px; padding: 80px 0 40px; border-top: 1px solid rgba(255,255,255,0.05); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 50px; }
+  .footer-block h4 { font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 25px; opacity: 0.6; }
+  .footer-links { list-style: none; padding: 0; }
+  .footer-links li { margin-bottom: 10px; }
+  .footer-links a { color: #fff; text-decoration: none; font-size: 0.8rem; opacity: 0.5; transition: 0.3s; }
+  .footer-links a:hover { opacity: 1; color: var(--elite-gold-primary); }
+  .footer-input { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; width: 100%; padding: 10px 0; margin-bottom: 10px; outline: none; }
 </style>
