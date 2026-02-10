@@ -1,173 +1,171 @@
 /*
-  Theme Name: Elite Pro Shopify Theme
-  Version: 1.0.0
-  Author: Elite Pro Team
-  Description: High-end Cinematic Luxury Design
+  Elite Pro - Master Stylesheet
+  Focus: High-Performance, Luxury UI, Glassmorphism
 */
 
-/* 1. Global Reset & Variables */
+/* --- 1. THEME ENGINE & VARIABLES --- */
 :root {
-    --primary-gold: #D4AF37;
-    --gold-glow: rgba(212, 175, 55, 0.4);
-    --bg-dark: #050505;
-    --text-light: #f5f5f5;
-    --transition-apple: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    --glass-blur: 20px;
+  --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --main-radius: 20px;
+  --panel-bg: rgba(255, 255, 255, 0.03);
+  --panel-border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-* { box-sizing: border-box; }
-
-body { 
-    background: var(--bg-dark); 
-    color: var(--text-light); 
-    margin: 0; 
-    font-family: 'Plus Jakarta Sans', sans-serif; 
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-}
-
-/* 2. Layout Containers */
-.container {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 5%;
-}
-
-.elite-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-}
-
-/* 3. Typography */
-h1, h2, h3, .section-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 0 0 20px 0;
+/* --- 2. GLOBAL ELEMENTS --- */
+body {
+  background-color: var(--bg-color);
+  font-family: var(--body-font);
+  color: #ffffff;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 .gold-text {
-    color: var(--primary-gold);
-    background: linear-gradient(45deg, #D4AF37, #F2D479);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  color: var(--elite-gold-primary);
+  text-shadow: 0 0 15px var(--elite-gold-glow);
 }
 
-/* 4. Glassmorphism Components */
-.glass-panel { 
-    background: rgba(255, 255, 255, 0.03); 
-    backdrop-filter: blur(var(--glass-blur)); 
-    -webkit-backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid rgba(255, 255, 255, 0.1); 
-    border-radius: 20px;
+.glass-panel {
+  background: var(--panel-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--panel-border);
+  border-radius: var(--main-radius);
 }
 
-/* 5. Buttons & Interactive Elements */
-.btn-elite {
-    background: var(--primary-gold);
-    color: #000;
-    padding: 16px 45px;
-    border-radius: 50px;
-    font-weight: 800;
-    text-decoration: none;
-    display: inline-block;
-    transition: var(--transition-apple);
-    border: none;
-    cursor: pointer;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-size: 0.85rem;
+/* --- 3. DYNAMIC HEADER --- */
+#EliteHeader {
+  position: fixed;
+  top: 0; width: 100%; z-index: 1000;
+  padding: 30px 5%;
+  transition: var(--transition-smooth);
 }
 
-.btn-elite:hover { 
-    transform: translateY(-5px); 
-    box-shadow: 0 15px 30px var(--gold-glow);
-    filter: brightness(1.1);
+#EliteHeader.is-scrolled {
+  padding: 15px 5%;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.btn-elite-outline {
-    background: transparent;
-    border: 1px solid var(--primary-gold);
-    color: var(--primary-gold);
-    padding: 14px 40px;
-    border-radius: 50px;
-    transition: var(--transition-apple);
-    text-decoration: none;
-    display: inline-block;
-    font-weight: bold;
+/* --- 4. PRODUCT GRID & CARDS --- */
+.elite-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
 }
 
-.btn-elite-outline:hover {
-    background: var(--primary-gold);
-    color: #000;
+.elite-pro-card {
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
 }
 
-/* 6. Animations (Reveal on Scroll) */
+.elite-pro-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--elite-gold-primary);
+}
+
+.image-inner {
+  position: relative;
+  aspect-ratio: 1/1.2;
+  overflow: hidden;
+  background: #111;
+}
+
+.main-card-img, .hover-card-img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-card-img { position: absolute; top: 0; left: 0; opacity: 0; transform: scale(1.1); }
+
+.elite-pro-card:hover .main-card-img { opacity: 0; }
+.elite-pro-card:hover .hover-card-img { opacity: 1; transform: scale(1); }
+
+/* --- 5. PRODUCT PAGE SPECIFICS --- */
+.main-product-container { padding-top: 150px; }
+.product-flex-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; }
+
+.price-badge {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--elite-gold-primary);
+}
+
+.qty-input, .elite-select {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff;
+  border-radius: 50px;
+  padding: 10px 20px;
+}
+
+/* --- 6. DYNAMIC CART --- */
+.cart-item-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  align-items: center;
+  padding: 25px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 20px;
+  background: var(--elite-gold-primary);
+  color: #000;
+  font-weight: 900;
+  border-radius: 50px;
+  letter-spacing: 2px;
+  transition: var(--transition-smooth);
+}
+
+.checkout-btn:hover {
+  box-shadow: 0 0 30px var(--elite-gold-glow);
+  transform: scale(1.02);
+}
+
+/* --- 7. PREDICTIVE SEARCH UI --- */
+.predictive-search-container {
+  position: fixed;
+  top: 100px; left: 50%;
+  transform: translateX(-50%);
+  width: 90%; max-width: 600px;
+  z-index: 2000;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+/* --- 8. REVEAL SYSTEM (JS-Linked) --- */
 .reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: var(--transition-apple);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.active {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* 7. Preloader UI */
-#preloader { 
-    position: fixed; 
-    inset: 0; 
-    background: #000; 
-    z-index: 9999; 
-    display: flex; 
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center; 
+/* --- 9. NICHE ADAPTATION --- */
+/* Fragrance Niche (Classic Gold) */
+.niche-fragrance .gold-text { color: #D4AF37; }
+
+/* Watch Niche (Industrial Silver/Cold Gold) */
+.niche-watch .gold-text { color: #E5E5E5; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+.niche-watch .btn-elite { background: #fff; color: #000; }
+
+/* --- 10. RESPONSIVE DESIGN --- */
+@media (max-width: 1024px) {
+  .elite-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-flex-layout { grid-template-columns: 1fr; }
+  .main-product-container { padding-top: 100px; }
 }
 
-.loader-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    color: var(--primary-gold);
-    letter-spacing: 10px;
-    animation: pulse 2s infinite ease-in-out;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.5; transform: scale(0.98); }
-    50% { opacity: 1; transform: scale(1); }
-}
-
-/* 8. Custom Cursor (Premium Desktop Experience) */
-.custom-cursor { 
-    width: 25px; 
-    height: 25px; 
-    border: 1.5px solid var(--primary-gold); 
-    border-radius: 50%; 
-    position: fixed; 
-    pointer-events: none; 
-    z-index: 10000; 
-    transform: translate(-50%, -50%);
-    transition: width 0.3s, height 0.3s, background 0.3s;
-}
-
-/* Expand cursor on hover links */
-body:has(a:hover) .custom-cursor {
-    width: 50px;
-    height: 50px;
-    background: rgba(212, 175, 55, 0.1);
-}
-
-/* 9. Utility Classes */
-.text-center { text-align: center; }
-.margin-top-lg { margin-top: 80px; }
-.padding-bottom-lg { padding-bottom: 80px; }
-
-/* 10. Responsive Tweaks */
 @media (max-width: 768px) {
-    .container { padding: 0 20px; }
-    .btn-elite { width: 100%; text-align: center; }
-    .custom-cursor { display: none; } /* Disable cursor on touch devices */
+  .cart-item-row { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .cart-header-area h1 { font-size: 1.5rem; }
 }
