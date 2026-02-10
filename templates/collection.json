@@ -1,16 +1,21 @@
 {
   "sections": {
-    "main": {
-      "type": "main-cart-items",
-      "settings": {}
+    "banner": {
+      "type": "collection-banner",
+      "settings": {
+        "show_description": true
+      }
     },
-    "footer": {
-      "type": "main-cart-footer",
-      "settings": {}
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 16,
+        "columns_desktop": 4
+      }
     }
   },
   "order": [
-    "main",
-    "footer"
+    "banner",
+    "product-grid"
   ]
 }
