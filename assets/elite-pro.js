@@ -1,106 +1,189 @@
 /**
- * Elite Pro - Cinematic Shopify Theme Logic
- * Version: 1.0.0
- * Features: Interactive Cursor, Scroll Reveal, AJAX Add to Cart, Sticky Header.
+ * Elite Pro - Ultimate Theme Engine (Full Version)
+ * Optimized for Shopify Performance & High Conversion
  */
 
-class EliteProTheme {
-    constructor() {
-        this.init();
-    }
+class EliteTheme {
+  constructor() {
+    this.initPreloader();
+    this.initReveal();
+    this.initHeader();
+    this.initCustomCursor();
+    this.initPredictiveSearch();
+    this.initQuickAdd();
+    this.initProductGallery();
+  }
 
-    init() {
-        this.loader();
-        this.customCursor();
-        this.scrollReveal();
-        this.stickyHeader();
-        this.imageParallax();
-        console.log('✨ Elite Pro: Cinematic Experience Initialized');
+  // 1. Preloader Logic
+  initPreloader() {
+    const preloader = document.getElementById('Preloader');
+    if (preloader) {
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          preloader.style.opacity = '0';
+          setTimeout(() => preloader.style.display = 'none', 600);
+          document.body.classList.add('loaded');
+        }, 800);
+      });
     }
+  }
 
-    // 1. Loader with Smooth Fade-Out Effect
-    loader() {
-        const loader = document.getElementById('preloader');
-        if (loader) {
-            window.addEventListener('load', () => {
-                loader.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 800);
-            });
+  // 2. Cinematic Scroll Reveal (Intersection Observer)
+  initReveal() {
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
         }
-    }
+      });
+    }, observerOptions);
 
-    // 2. Premium Cursor Interaction Logic
-    customCursor() {
-        const cursor = document.querySelector('.custom-cursor');
-        if (!cursor || window.matchMedia("(max-width: 1024px)").matches) return;
+    document.querySelectorAll('.reveal, .reveal-item').forEach(el => revealObserver.observe(el));
+  }
 
-        document.addEventListener('mousemove', (e) => {
-            // Use requestAnimationFrame for high-performance 60fps rendering
-            requestAnimationFrame(() => {
-                cursor.style.left = `${e.clientX}px`;
-                cursor.style.top = `${e.clientY}px`;
-            });
-        });
+  // 3. Header Animation on Scroll
+  initHeader() {
+    const header = document.getElementById('EliteHeader');
+    if (!header) return;
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 50) {
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+    }, { passive: true });
+  }
 
-        // Expand cursor on hover over interactive elements
-        const interactiveElements = document.querySelectorAll('a, button, .product-card, .btn-elite');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-active'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-active'));
-        });
-    }
+  // 4. Custom Cinematic Cursor
+  initCustomCursor() {
+    const cursor = document.querySelector('.custom-cursor');
+    if (!cursor || ('ontouchstart' in window)) return;
 
-    // 3. Modern Scroll Reveal (Intersection Observer API)
-    scrollReveal() {
-        const revealOptions = {
-            threshold: 0.15,
-            rootMargin: "0px 0px -50px 0px"
-        };
+    document.addEventListener('mousemove', (e) => {
+      requestAnimationFrame(() => {
+        cursor.style.left = `${e.clientX}px`;
+        cursor.style.top = `${e.clientY}px`;
+      });
+    });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    // Stop observing once the element is revealed to save resources
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, revealOptions);
+    document.querySelectorAll('a, button, [data-cursor-expand]').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+    });
+  }
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    }
+  // 5. Predictive AJAX Search
+  initPredictiveSearch() {
+    const searchInput = document.querySelector('input[name="q"]');
+    const resultsContainer = document.querySelector('#predictive-search-results');
+    
+    if (!searchInput || !resultsContainer) return;
 
-    // 4. Sticky Header Visibility Logic
-    stickyHeader() {
-        const header = document.getElementById('EliteHeader');
-        if (!header) return;
+    let timeout;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(timeout);
+      const searchTerm = searchInput.value.trim();
 
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
+      if (!searchTerm) {
+        resultsContainer.style.display = 'none';
+        return;
+      }
 
-            if (currentScroll > 50) {
-                header.classList.add('is-scrolled');
-            } else {
-                header.classList.remove('is-scrolled');
+      timeout = setTimeout(() => {
+        fetch(`/search/suggest.json?q=${searchTerm}&resources[type]=product&resources[limit]=4&section_id=predictive-search`)
+          .then(res => res.text())
+          .then(text => {
+            const html = new DOMParser().parseFromString(text, 'text/html');
+            const resultsHtml = html.querySelector('#shopify-section-predictive-search');
+            if (resultsHtml) {
+              resultsContainer.innerHTML = resultsHtml.innerHTML;
+              resultsContainer.style.display = 'block';
             }
-        });
-    }
+          });
+      }, 300);
+    });
 
-    // 5. Hero Title Parallax Depth Effect
-    imageParallax() {
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.hero-main-title');
-            parallaxElements.forEach(el => {
-                const speed = 0.3;
-                el.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
+    // Close search when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
+        resultsContainer.style.display = 'none';
+      }
+    });
+  }
+
+  // 6. AJAX Quick Add to Cart
+  initQuickAdd() {
+    document.querySelectorAll('.quick-add-form, .elite-product-form').forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = form.querySelector('[name="add"]');
+        if (submitBtn.classList.contains('loading')) return;
+
+        submitBtn.classList.add('loading');
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch(window.routes.cart_add_url + '.js', {
+            method: 'POST',
+            body: formData
+          });
+          
+          if (response.ok) {
+            this.updateCartCounter();
+            // Dispatch a custom event for other components to react
+            document.dispatchEvent(new CustomEvent('cart:item-added'));
+            submitBtn.innerHTML = 'ADDED ✨';
+            setTimeout(() => submitBtn.innerHTML = 'ADD TO BAG', 2000);
+          }
+        } catch (err) {
+          console.error('Add to cart failed:', err);
+        } finally {
+          submitBtn.classList.remove('loading');
+        }
+      });
+    });
+  }
+
+  // 7. Dynamic Product Gallery Switcher
+  initProductGallery() {
+    window.updateProductImage = (src, element, sectionId) => {
+      const mainImg = document.getElementById(`MainProductImage-${sectionId}`);
+      if (!mainImg) return;
+      
+      mainImg.style.opacity = '0.3';
+      const newImg = new Image();
+      newImg.src = src;
+      newImg.onload = () => {
+        mainImg.src = src;
+        mainImg.style.opacity = '1';
+      };
+
+      // Handle thumbnail active state
+      element.closest('.thumbnails-grid').querySelectorAll('.thumb-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      element.classList.add('active');
+    };
+  }
+
+  // Helper: Update Cart Count globally
+  async updateCartCounter() {
+    try {
+      const res = await fetch('/cart.js');
+      const cart = await res.json();
+      document.querySelectorAll('#CartCount').forEach(el => {
+        el.textContent = `[${cart.item_count}]`;
+      });
+    } catch (e) {
+      console.warn('Could not update cart count');
     }
+  }
 }
 
-// Initialize Theme on DOM Ready
+// 8. Launch Engine
 document.addEventListener('DOMContentLoaded', () => {
-    new EliteProTheme();
+  window.EliteEngine = new EliteTheme();
 });
