@@ -3,12 +3,27 @@
     "hero": {
       "type": "elite-hero",
       "settings": {
-        "title": "ELITE PRO LUXURY",
-        "btn_text": "SHOP NOW"
+        "title": "DEFINING LUXURY",
+        "subtitle": "Exclusively Crafted for the Elite"
+      }
+    },
+    "featured_products": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "THE NEW ARRIVALS",
+        "limit": 4
+      }
+    },
+    "about_brand": {
+      "type": "elite-rich-text",
+      "settings": {
+        "content_align": "center"
       }
     }
   },
   "order": [
-    "hero"
+    "hero",
+    "featured_products",
+    "about_brand"
   ]
 }
