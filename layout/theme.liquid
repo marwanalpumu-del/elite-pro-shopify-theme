@@ -1,113 +1,88 @@
 <!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
+<html lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="canonical" href="{{ canonical_url }}">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="canonical" href="{{ canonical_url }}">
 
-    {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-    {%- endif -%}
+  <title>
+    {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
 
-    <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-    </title>
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
-    {% endif %}
+  {{ content_for_header }}
 
-    {% render 'meta-tags' %}
-
-    {%- comment -%} 
-      Dynamic Font Loading from Theme Settings
-    {%- endcomment -%}
-    <style>
-      {{ settings.type_header_font | font_face: font_display: 'swap' }}
-      {{ settings.type_base_font | font_face: font_display: 'swap' }}
-      
-      {%- assign header_font_bold = settings.type_header_font | font_modify: 'weight', 'bold' -%}
-      {% if header_font_bold %}
-        {{ header_font_bold | font_face: font_display: 'swap' }}
-      {% endif %}
-
-      :root {
-        /* Color Palette */
-        --primary-gold: {{ settings.gold_primary | default: '#D4AF37' }};
-        --bg-dark: {{ settings.bg_dark | default: '#050505' }};
-        --text-light: #ffffff;
-        
-        /* Typography - Dynamic from Font Picker */
-        --font-header-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
-        --font-body-family: {{ settings.type_base_font.family }}, {{ settings.type_base_font.fallback_families }};
-        --font-body-style: {{ settings.type_base_font.style }};
-        --font-body-weight: {{ settings.type_base_font.weight }};
-
-        /* Glassmorphism */
-        --glass-bg: rgba(255, 255, 255, 0.03);
-        --glass-border: rgba(255, 255, 255, 0.1);
-        --glass-blur: {{ settings.blur_intensity | default: 25 }}px;
-        
-        /* Transitions */
-        --transition-main: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      /* Global Layout */
-      body {
-        margin: 0;
-        background-color: var(--bg-dark);
-        color: var(--text-light);
-        font-family: var(--font-body-family);
-        font-style: var(--font-body-style);
-        font-weight: var(--font-body-weight);
-        overflow-x: hidden;
-        line-height: 1.6;
-      }
-
-      h1, h2, h3, h4, h5, h6, .section-title {
-        font-family: var(--font-header-family);
-      }
-
-      .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
-      
-      .glass-panel {
-        background: var(--glass-bg);
-        backdrop-filter: blur(var(--glass-blur));
-        -webkit-backdrop-filter: blur(var(--glass-blur));
-        border: 1px solid var(--glass-border);
-      }
-
-      /* Animation reveal classes */
-      .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition-main); }
-      .reveal.active { opacity: 1; transform: translateY(0); }
-    </style>
-
-    {{ content_for_header }}
-    {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
-</head>
-<body class="elite-pro-dark">
+  {%- liquid
+    # --- ELITE PRO NICHE ENGINE ---
+    # Logic to switch design language based on the selected niche
+    assign niche = settings.theme_style | default: 'fragrance'
     
-    <div id="preloader">
-      <div class="loader-content">
-        <h1 class="loader-logo">ELITE PRO</h1>
-        <div class="loader-bar"></div>
-      </div>
-    </div>
+    case niche
+      when 'fragrance'
+        assign primary_accent = '#D4AF37'
+        assign font_family = "'Playfair Display', serif"
+        assign font_url = "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      when 'watch'
+        assign primary_accent = '#E5E5E5'
+        assign font_family = "'Inter', sans-serif"
+        assign font_url = "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      else
+        assign primary_accent = '#D4AF37'
+        assign font_family = "'Playfair Display', serif"
+        assign font_url = "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+    endcase
+  -%}
 
-    <div class="custom-cursor"></div>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="{{ font_url }}" rel="stylesheet">
 
-    {% section 'header-elite' %}
+  <style>
+    :root {
+      /* Luxury Branding Colors */
+      --elite-gold-primary: {{ settings.gold_primary | default: primary_accent }};
+      --elite-gold-light: {{ settings.gold_light | default: '#F9E2AF' }};
+      --elite-black-deep: {{ settings.bg_color | default: '#0A0A0A' }};
+      
+      /* Typography Variables */
+      --main-font: {{ font_family }};
+      
+      /* Visual FX */
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --transition-main: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-    <main id="MainContent" role="main" tabindex="-1">
-      {{ content_for_layout }}
-    </main>
+    body {
+      background-color: var(--elite-black-deep);
+      color: #ffffff;
+      font-family: var(--main-font);
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+  </style>
 
-    {% section 'footer-elite' %}
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
+</head>
 
-    <script src="{{ 'elite-pro.js' | asset_url }}" defer></script>
+<body class="template-{{ template.name | handle }} niche-{{ settings.theme_style | default: 'fragrance' }}">
+
+  <a class="skip-to-content-link visually-hidden" href="#MainContent">Skip to content</a>
+
+  {% section 'header' %}
+
+  <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'elite-footer' %}
+
+  <script src="{{ 'elite-pro.js' | asset_url }}" defer></script>
+
 </body>
 </html>
