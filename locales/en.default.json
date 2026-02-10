@@ -1,12 +1,41 @@
 {
   "general": {
-    "theme_name": "Elite Pro",
+    "search": {
+      "placeholder": "Search for a unique piece...",
+      "submit": "Search"
+    },
     "cart": {
-      "item_count": "BAG [{{ count }}]"
+      "view": "View Bag",
+      "checkout": "Checkout"
+    }
+  },
+  "sections": {
+    "header": {
+      "menu": "Menu",
+      "cart_count": "[{{ count }}]"
+    },
+    "cart": {
+      "title": "Your Elite Selection",
+      "empty": "Your shopping bag is currently empty.",
+      "continue_shopping": "Continue Exploring",
+      "headings": {
+        "product": "Product",
+        "quantity": "Quantity",
+        "total": "Total"
+      }
+    },
+    "featured_collection": {
+      "view_all": "View All"
     }
   },
   "products": {
-    "add_to_cart": "ADD TO BAG",
-    "sold_out": "SOLD OUT"
+    "product": {
+      "add_to_cart": "Add to Bag",
+      "sold_out": "Sold Out",
+      "on_sale": "Special Offer",
+      "quantity": {
+        "label": "Quantity"
+      }
+    }
   }
 }
