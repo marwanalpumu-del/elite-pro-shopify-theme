@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {}
+    },
+    "dynamic_content": {
+      "type": "elite-rich-text",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "dynamic_content"
+  ]
+}
