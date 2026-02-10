@@ -5,13 +5,13 @@
       "settings": {}
     },
     "recommendations": {
-      "type": "elite-collection",
+      "type": "product-recommendations",
       "settings": {
-        "title": "You May Also Like",
+        "title": "YOU MAY ALSO LIKE",
         "count": 4
       }
     }
-  },
+  ,
   "order": [
     "main",
     "recommendations"
