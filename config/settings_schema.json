@@ -14,20 +14,40 @@
         "content": "Visual Identity"
       },
       {
+        "type": "select",
+        "id": "theme_style",
+        "label": "Select Luxury Niche",
+        "options": [
+          { "value": "fragrance", "label": "Luxury Fragrance (Gold/Serif)" },
+          { "value": "watch", "label": "Elite Watches (Silver/Sans-Serif)" }
+        ],
+        "default": "fragrance"
+      },
+      {
         "type": "image_picker",
         "id": "favicon",
         "label": "Favicon Image"
       },
       {
+        "type": "header",
+        "content": "Luxury Colors"
+      },
+      {
         "type": "color",
         "id": "gold_primary",
-        "label": "Gold Accent Color",
+        "label": "Primary Accent Color",
         "default": "#D4AF37"
       },
       {
         "type": "color",
-        "id": "bg_dark",
-        "label": "Global Background Color",
+        "id": "gold_light",
+        "label": "Light Gold (Shine)",
+        "default": "#F9E2AF"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Main Background Color",
         "default": "#050505"
       },
       {
@@ -51,7 +71,7 @@
     "settings": [
       {
         "type": "header",
-        "content": "Font Families"
+        "content": "Custom Font Picker"
       },
       {
         "type": "font_picker",
@@ -72,7 +92,7 @@
     "settings": [
       {
         "type": "header",
-        "content": "Social Links"
+        "content": "Social Connectivity"
       },
       {
         "type": "text",
