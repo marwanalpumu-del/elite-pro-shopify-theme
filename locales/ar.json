@@ -1,4 +1,41 @@
 {
-  "products": { "add_to_cart": "إضافة للحقيبة" },
-  "general": { "cart": { "item_count": "الحقيبة [{{ count }}]" } }
+  "general": {
+    "search": {
+      "placeholder": "ابحث عن قطعة فريدة...",
+      "submit": "بحث"
+    },
+    "cart": {
+      "view": "عرض الحقيبة",
+      "checkout": "إتمام الشراء"
+    }
+  },
+  "sections": {
+    "header": {
+      "menu": "القائمة",
+      "cart_count": "[{{ count }}]"
+    },
+    "cart": {
+      "title": "مختاراتك النخبوية",
+      "empty": "حقيبة التسوق فارغة حالياً.",
+      "continue_shopping": "استمر في الاستكشاف",
+      "headings": {
+        "product": "المنتج",
+        "quantity": "الكمية",
+        "total": "الإجمالي"
+      }
+    },
+    "featured_collection": {
+      "view_all": "عرض الكل"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "إضافة إلى الحقيبة",
+      "sold_out": "نفدت الكمية",
+      "on_sale": "عرض خاص",
+      "quantity": {
+        "label": "الكمية"
+      }
+    }
+  }
 }
