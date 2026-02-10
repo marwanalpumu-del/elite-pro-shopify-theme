@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "image_ratio": "portrait"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
