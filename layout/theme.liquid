@@ -1,88 +1,125 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="canonical" href="{{ canonical_url }}">
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.gold_primary }}">
+    <link rel="canonical" href="{{ canonical_url }}">
 
-  <title>
-    {{ page_title }}{% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
-  </title>
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
 
-  {% if page_description %}
-    <meta name="description" content="{{ page_description | escape }}">
-  {% endif %}
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
 
-  {{ content_for_header }}
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
 
-  {%- liquid
-    # --- ELITE PRO NICHE ENGINE ---
-    # Logic to switch design language based on the selected niche
-    assign niche = settings.theme_style | default: 'fragrance'
+    {% render 'meta-tags' %}
+
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     
-    case niche
-      when 'fragrance'
-        assign primary_accent = '#D4AF37'
-        assign font_family = "'Playfair Display', serif"
-        assign font_url = "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-      when 'watch'
-        assign primary_accent = '#E5E5E5'
-        assign font_family = "'Inter', sans-serif"
-        assign font_url = "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
-      else
-        assign primary_accent = '#D4AF37'
-        assign font_family = "'Playfair Display', serif"
-        assign font_url = "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-    endcase
-  -%}
+    {%- unless settings.font_heading.system? -%}
+      <link rel="preload" as="font" href="{{ settings.font_heading | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="{{ font_url }}" rel="stylesheet">
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
+    
+    <style>
+      :root {
+        --elite-gold-primary: {{ settings.gold_primary | default: '#D4AF37' }};
+        --elite-gold-glow: {{ settings.gold_primary | color_modify: 'alpha', 0.3 }};
+        --bg-color: {{ settings.bg_color | default: '#050505' }};
+        --main-font: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+        --body-font: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+        --glass-blur: {{ settings.blur_intensity | default: 20 }}px;
+        --transition-apple: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
 
+      body {
+        background-color: var(--bg-color);
+        font-family: var(--body-font);
+        color: #ffffff;
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      .visually-hidden {
+        position: absolute !important;
+        width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+      }
+    </style>
+
+    {{ content_for_header }}
+
+
+{%- if request.locale.iso_code == 'ar' -%}
   <style>
-    :root {
-      /* Luxury Branding Colors */
-      --elite-gold-primary: {{ settings.gold_primary | default: primary_accent }};
-      --elite-gold-light: {{ settings.gold_light | default: '#F9E2AF' }};
-      --elite-black-deep: {{ settings.bg_color | default: '#0A0A0A' }};
-      
-      /* Typography Variables */
-      --main-font: {{ font_family }};
-      
-      /* Visual FX */
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.1);
-      --transition-main: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    body {
-      background-color: var(--elite-black-deep);
-      color: #ffffff;
-      font-family: var(--main-font);
-      margin: 0;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
+    body { direction: rtl; text-align: right; letter-spacing: 0 !important; }
+    .header-grid, .product-flex-layout, .footer-grid, .cart-item-row { direction: rtl; }
+    .nav-link { margin-right: 0; margin-left: 25px; }
+    .custom-cursor { display: none; } /* يفضل إيقاف الكرسر في النسخة العربية لثبات الأداء */
   </style>
+{%- endif -%}
 
-  {{ 'base.css' | asset_url | stylesheet_tag }}
-  {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
-</head>
+  </head>
 
-<body class="template-{{ template.name | handle }} niche-{{ settings.theme_style | default: 'fragrance' }}">
+  <body class="gradient niche-{{ settings.theme_style }}">
+    
+    <a class="skip-to-content-link visually-hidden" href="#MainContent">
+      Skip to content
+    </a>
 
-  <a class="skip-to-content-link visually-hidden" href="#MainContent">Skip to content</a>
+    {% if settings.show_custom_cursor %}
+      <div class="custom-cursor"></div>
+    {% endif %}
 
-  {% section 'header' %}
+    <div class="preloader" id="Preloader">
+      <div class="loader-logo gold-text">{{ shop.name | uppercase }}</div>
+      <div class="loader-bar"></div>
+    </div>
 
-  <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-    {{ content_for_layout }}
-  </main>
+    {% section 'header' %}
 
-  {% section 'elite-footer' %}
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
 
-  <script src="{{ 'elite-pro.js' | asset_url }}" defer></script>
+    {% section 'footer' %}
 
-</body>
+    {% render 'predictive-search' %}
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}'
+      };
+    </script>
+    
+    <script src="{{ 'elite-pro.js' | asset_url }}" defer="defer"></script>
+
+    <script>
+      // Preloader Auto-exit
+      window.addEventListener('load', () => {
+        const preloader = document.getElementById('Preloader');
+        setTimeout(() => {
+          preloader.style.opacity = '0';
+          setTimeout(() => preloader.style.display = 'none', 600);
+        }, 800);
+      });
+    </script>
+  </body>
 </html>
