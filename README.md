@@ -1,40 +1,42 @@
-# Elite Pro - Cinematic Luxury Shopify Theme 💎
+# 🏆 ELITE PRO - Luxury Shopify Framework (OS 2.0)
 
-**Elite Pro** is a high-performance, cinematic Shopify theme designed for premium luxury brands. Built with **Shopify OS 2.0** standards, it combines a sophisticated **Glassmorphism UI** with high-speed performance and professional SEO optimization.
-
----
-
-## ✨ Key Features
-
-* **Cinematic Hero Engine:** Supports high-definition background videos with smooth text overlays.
-* **Luxury Product Grid:** Features sophisticated hover effects, secondary image flip, and AJAX-ready quick add.
-* **Glassmorphism Design System:** A modern visual language using blur effects and gold accents for a premium feel.
-* **AI-Powered Recommendations:** Smart "Related Products" section using Shopify's Recommendations API.
-* **Performance First:** Optimized with `Intersection Observer` for lazy-loading and liquid-efficient code.
-* **SEO Optimized:** Includes JSON-LD structured data for rich search results.
+**Elite Pro** is a high-end, performance-optimized Shopify theme framework designed specifically for luxury brands. It features a cinematic user interface, glassmorphism elements, and a sophisticated golden aesthetic.
 
 ---
 
-## 🚀 Technical Specifications
+## ✨ Key Premium Features
 
-| Feature | Technology |
-| :--- | :--- |
-| **Framework** | Shopify OS 2.0 (Liquid) |
-| **Styling** | Advanced CSS3 (Custom Variables + Glassmorphism) |
-| **Interactions** | Vanilla JavaScript (ES6+) |
-| **Animations** | GSAP-ready / Intersection Observer API |
-| **Fonts** | Dynamic Google Fonts Integration |
+* **Cinematic Hero Section:** Fully responsive hero banner with support for high-quality MP4 backgrounds and gold-tinted overlays.
+* **Luxury UI Engine:** * **Custom Interactive Cursor:** A dynamic golden cursor that reacts to hoverable elements.
+    * **Premium Preloader:** A sleek, branded entrance animation for an exclusive shopping experience.
+    * **Scroll Reveal System:** Smooth "Fade-In Up" animations for all sections.
+* **Glassmorphism Design:** Modern translucent panels for search results and navigation menus.
+* **OS 2.0 Architecture:** Fully compatible with JSON templates, App Blocks, and optimized Liquid logic.
 
 ---
 
-## 📂 Project Structure
+## 🛠️ Technical Implementation
 
+### Core Assets
+- `/assets/elite-master.css`: Contains the master luxury styling, typography, and glass effects.
+- `/assets/elite-engine.js`: Handles the interactive JavaScript logic (Cursor, Preloader, Animations).
+- `/sections/elite-hero.liquid`: The flagship modular Hero section with full Schema customization.
 
+### Design Tokens (CSS Variables)
+The theme uses a centralized variable system in `:root` to ensure consistency:
+- `--elite-gold-primary`: `#D4AF37`
+- `--bg-color`: `#050505`
+- `--transition-apple`: `cubic-bezier(0.16, 1, 0.3, 1)`
 
-```text
-├── assets/             # Core CSS (base.css) and JS (elite-pro.js)
-├── layout/             # Main theme wrapper
-├── locales/            # Internationalization (en.default.json)
-├── sections/           # Modular sections (Hero, Collection, Rich Text)
-├── snippets/           # Reusable components (Product Card)
-└── templates/          # JSON-based templates for OS 2.0
+---
+
+## 🚀 Quick Setup
+
+1. Clone this repository into your local Shopify development environment.
+2. Ensure your `hero-banner-luxury.jpg` is uploaded to the `/assets` folder.
+3. Use the **Shopify Theme Editor** to customize fonts and colors via the `settings_schema.json`.
+
+---
+
+## ⚖️ License
+Standard ThemeForest License - **Elite Pro Framework**.
