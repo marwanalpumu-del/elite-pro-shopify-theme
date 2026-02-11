@@ -1,135 +1,122 @@
 <section class="main-product-container reveal" data-section="{{ section.id }}">
   <div class="product-flex-layout">
     
+    {% comment %} --- Left Side: Luxury Gallery --- {% endcomment %}
     <div class="product-gallery glass-panel">
       <div class="main-image-holder">
         <img src="{{ product.featured_image | image_url: width: 1200 }}" 
-             alt="{{ product.title }}" 
+             alt="{{ product.featured_image.alt | escape }}" 
              class="featured-img" 
-             id="MainProductImage">
+             id="MainProductImage-{{ section.id }}"
+             loading="eager">
       </div>
+      
       {% if product.images.size > 1 %}
-        <div class="thumbnails-grid">
+        <div class="thumbnails-grid" data-cursor-expand>
           {% for image in product.images %}
-            <img src="{{ image | image_url: width: 200 }}" 
-                 class="thumb-img" 
-                 loading="lazy"
-                 alt="{{ product.title }}"
-                 onclick="document.getElementById('MainProductImage').src='{{ image | image_url: width: 1200 }}'">
+            <div class="thumb-wrapper {% if forloop.first %}active{% endif %}" 
+                 onclick="window.updateProductImage('{{ image | image_url: width: 1200 }}', this, '{{ section.id }}')">
+              <img src="{{ image | image_url: width: 200 }}" 
+                   class="thumb-img" 
+                   loading="lazy"
+                   alt="{{ image.alt | escape }}">
+            </div>
           {% endfor %}
         </div>
       {% endif %}
     </div>
 
+    {% comment %} --- Right Side: Product Details (Dynamic Blocks) --- {% endcomment %}
     <div class="product-info-panel">
-      <nav class="breadcrumb">
-        <a href="/">{{ 'general.home' | t | default: 'Home' }}</a> / {{ product.collections.first.title }}
-      </nav>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          
+          {%- when '@app' -%}
+            {% render block %}
 
-      <h1 class="product-main-title">{{ product.title }}</h1>
-      
-      <div class="price-badge gold-glow" id="ProductPrice-{{ section.id }}">
-        {{ product.selected_or_first_available_variant.price | money_with_currency }}
-      </div>
+          {%- when 'title' -%}
+            <nav class="breadcrumb" {{ block.shopify_attributes }}>
+              <a href="/">HOME</a> / {{ product.collections.first.title | uppercase }}
+            </nav>
+            <h1 class="product-main-title">{{ product.title }}</h1>
 
-      <div class="product-description glass-panel">
-        {{ product.description }}
-      </div>
+          {%- when 'price' -%}
+            <div class="price-badge gold-glow" id="ProductPrice-{{ section.id }}" {{ block.shopify_attributes }}>
+              {{ product.selected_or_first_available_variant.price | money_with_currency }}
+            </div>
 
-      {% form 'product', product, id: "product-form", class: "elite-product-form" %}
-        
-        {% unless product.has_only_default_variant %}
-          <div class="product-variants-wrapper">
-            <label for="OptionSelect-{{ section.id }}" class="gold-text-small">SELECT VARIATION</label>
-            <select name="id" id="OptionSelect-{{ section.id }}" class="elite-select glass-panel">
-              {% for variant in product.variants %}
-                <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
-                  {{ variant.title }} - {{ variant.price | money }} {% unless variant.available %}(Sold Out){% endunless %}
-                </option>
-              {% endfor %}
-            </select>
-          </div>
-        {% else %}
-          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-        {% endunless %}
-        
-        <div class="purchase-actions" style="margin-top: 30px;">
-          <div class="quantity-wrapper glass-panel">
-            <label>{{ 'products.product.quantity' | t | default: 'Qty' }}</label>
-            <input type="number" name="quantity" value="1" min="1" class="qty-input">
-          </div>
+          {%- when 'description' -%}
+            <div class="product-description glass-panel" {{ block.shopify_attributes }}>
+              {{ product.description }}
+            </div>
 
-          <button type="submit" name="add" class="btn-elite buy-now-btn" {% unless product.available %}disabled{% endunless %}>
-            {% if product.available %}
-              {{ 'products.add_to_cart' | t | default: 'ADD TO BAG' }}
-            {% else %}
-              SOLD OUT
-            {% endif %}
-          </button>
-        </div>
-      {% endform %}
+          {%- when 'buy_buttons' -%}
+            <div {{ block.shopify_attributes }}>
+              {% form 'product', product, id: "product-form", class: "elite-product-form" %}
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                
+                {% unless product.has_only_default_variant %}
+                  <div class="product-variants-wrapper">
+                    <label class="gold-text-small">SELECT VARIATION</label>
+                    <select name="id" class="elite-select glass-panel">
+                      {% for variant in product.variants %}
+                        <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>
+                          {{ variant.title }} - {{ variant.price | money }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endunless %}
+                
+                <div class="purchase-actions">
+                  <div class="quantity-wrapper glass-panel">
+                    <input type="number" name="quantity" value="1" min="1" class="qty-input">
+                  </div>
+
+                  <button type="submit" name="add" class="btn-elite buy-now-btn" {% unless product.available %}disabled{% endunless %}>
+                    <span>{% if product.available %}ADD TO BAG{% else %}SOLD OUT{% endif %}</span>
+                  </button>
+                </div>
+              {% endform %}
+            </div>
+
+        {%- endcase -%}
+      {%- endfor -%}
       
       <div class="luxury-trust-badges">
-        <p>✨ Free Worldwide Shipping</p>
-        <p>🔒 Secure Luxury Checkout</p>
+        <p>✨ COMPLIMENTARY SHIPPING</p>
+        <p>🔒 SECURE ENCRYPTED CHECKOUT</p>
       </div>
     </div>
   </div>
 </section>
 
-<style>
-  .main-product-container { padding: 150px 5% 80px; max-width: 1400px; margin: 0 auto; color: #fff; }
-  .product-flex-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start; }
-
-  /* Gallery Styling */
-  .product-gallery { border-radius: 30px; padding: 20px; overflow: hidden; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); }
-  .main-image-holder { border-radius: 20px; overflow: hidden; aspect-ratio: 1/1; background: #000; }
-  .featured-img { width: 100%; height: 100%; object-fit: contain; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-  .thumbnails-grid { display: flex; gap: 15px; margin-top: 20px; overflow-x: auto; padding-bottom: 10px; }
-  .thumb-img { width: 80px; height: 80px; border-radius: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
-  .thumb-img:hover { border-color: var(--primary-gold, #D4AF37); transform: scale(1.05); }
-
-  /* Info Styling */
-  .breadcrumb { font-size: 0.8rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .breadcrumb a { color: #fff; text-decoration: none; }
-  .product-main-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.5rem); margin: 10px 0 20px; line-height: 1.2; }
-  .price-badge { font-size: 2rem; font-weight: 700; color: var(--primary-gold, #D4AF37); margin-bottom: 30px; display: inline-block; }
-  .gold-glow { text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
-  .product-description { padding: 25px; border-radius: 20px; line-height: 1.8; color: #ccc; margin-bottom: 40px; background: rgba(255,255,255,0.03); }
-
-  /* Variant & Select Styling */
-  .product-variants-wrapper { margin-bottom: 25px; }
-  .elite-select { width: 100%; padding: 15px; border-radius: 12px; color: #fff; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); outline: none; margin-top: 10px; cursor: pointer; font-size: 1rem; }
-  .gold-text-small { font-size: 0.75rem; letter-spacing: 2px; color: var(--primary-gold, #D4AF37); font-weight: bold; text-transform: uppercase; }
-
-  /* Actions */
-  .purchase-actions { display: flex; gap: 20px; align-items: center; }
-  .quantity-wrapper { display: flex; align-items: center; gap: 15px; padding: 12px 25px; border-radius: 50px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
-  .quantity-wrapper input { background: transparent; border: none; color: #fff; width: 40px; text-align: center; font-weight: 700; font-size: 1rem; }
-  .buy-now-btn { flex-grow: 1; text-align: center; cursor: pointer; border: none; font-weight: bold; letter-spacing: 1px; }
-
-  .luxury-trust-badges { margin-top: 40px; display: flex; gap: 30px; font-size: 0.8rem; opacity: 0.6; letter-spacing: 1px; }
-
-  /* Mobile Responsive */
-  @media (max-width: 1024px) {
-    .product-flex-layout { grid-template-columns: 1fr; gap: 40px; }
-    .main-product-container { padding-top: 100px; }
-    .product-main-title { font-size: 2.5rem; }
-  }
-</style>
-
 {% schema %}
 {
-  "name": "Main Product Elite",
+  "name": "Elite Product Main",
+  "tag": "section",
+  "blocks": [
+    { "type": "@app" },
+    { "type": "title", "name": "Title & Breadcrumb", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    { "type": "description", "name": "Description", "limit": 1 },
+    { "type": "buy_buttons", "name": "Buy Buttons", "limit": 1 }
+  ],
   "settings": [
     {
       "type": "header",
-      "content": "Product Page Settings"
+      "content": "Visual Options"
     }
   ],
   "presets": [
     {
-      "name": "Main Product Elite"
+      "name": "Elite Product Main",
+      "blocks": [
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "description" },
+        { "type": "buy_buttons" }
+      ]
     }
   ]
 }
