@@ -1,19 +1,15 @@
 {% comment %}
   Elite Pro Framework
-  Hero Section: Performance Optimized with Video Support
+  Hero Section: Performance Optimized with Translation Support
+  Core Architecture: Shopify Online Store 2.0
 {% endcomment %}
 
 <section class="elite-hero reveal" data-section-id="{{ section.id }}">
   {%- if section.settings.video_url != blank -%}
-    {% comment %} Video is prioritized if URL is provided {% endcomment %}
     <video autoplay muted loop playsinline preload="auto" class="hero-video">
       <source src="{{ section.settings.video_url }}" type="video/mp4">
     </video>
   {%- elsif section.settings.image != blank -%}
-    {% comment %} 
-       Performance Optimization: 
-       'loading: eager' and 'fetchpriority: high' ensure the LCP image loads instantly.
-    {% endcomment %}
     {{ section.settings.image | image_url: width: 2000 | image_tag: 
       class: 'hero-img', 
       alt: section.settings.title, 
@@ -22,15 +18,16 @@
       preload: true 
     }}
   {%- else -%}
-    {% comment %} Placeholder for onboarding when no image/video is selected {% endcomment %}
     {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-img placeholder-svg' }}
   {%- endif -%}
 
   <div class="hero-overlay" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }}));">
     <div class="container text-center">
-      {%- if section.settings.title != blank -%}
-        <h1 class="hero-title">{{ section.settings.title | uppercase }}</h1>
-      {%- endif -%}
+      
+      {% comment %} Smart Title Integration with Localization Support {% endcomment %}
+      <h1 class="hero-title">
+        {{ section.settings.title | default: t: 'sections.hero.title' | uppercase }}
+      </h1>
       
       {%- if section.settings.subtitle != blank -%}
         <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
@@ -62,7 +59,7 @@
       "type": "text",
       "id": "video_url",
       "label": "Video MP4 URL",
-      "info": "Direct .mp4 link. Overrides image if provided."
+      "info": "Provide a direct .mp4 link. This overrides the background image."
     },
     {
       "type": "range",
@@ -82,7 +79,7 @@
       "type": "text",
       "id": "title",
       "label": "Heading",
-      "default": "DEFINING LUXURY"
+      "placeholder": "Leave empty to use default translation"
     },
     {
       "type": "text",
