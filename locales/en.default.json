@@ -2,17 +2,34 @@
   "general": {
     "search": {
       "placeholder": "Search for a unique piece...",
-      "submit": "Search"
+      "submit": "Search",
+      "results": "Results",
+      "view_all": "View all results"
     },
     "cart": {
       "view": "View Bag",
-      "checkout": "Checkout"
+      "checkout": "Checkout",
+      "added_success": "Added ✨",
+      "item_added": "Item added to bag"
+    },
+    "accessibility": {
+      "close": "Close",
+      "next": "Next",
+      "previous": "Previous",
+      "loading": "Loading..."
     }
   },
   "sections": {
     "header": {
       "menu": "Menu",
       "cart_count": "[{{ count }}]"
+    },
+    "hero": {
+      "title": "Defining Luxury",
+      "button": "Explore Now"
+    },
+    "related_products": {
+      "heading": "You May Also Like"
     },
     "cart": {
       "title": "Your Elite Selection",
@@ -33,6 +50,8 @@
       "add_to_cart": "Add to Bag",
       "sold_out": "Sold Out",
       "on_sale": "Special Offer",
+      "price": "Price",
+      "vendor": "Brand",
       "quantity": {
         "label": "Quantity"
       }
