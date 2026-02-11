@@ -1,34 +1,40 @@
 {% comment %}
   Elite Pro Framework - High-Performance Product Card
-  Features: Secondary Image Hover, AJAX Quick Add, SEO Structured Data, and Responsive Srcset
+  Updated: Dynamic Aspect Ratio & Safety Image Engine
 {% endcomment %}
 
 <div class="elite-pro-card reveal-item" data-product-id="{{ product.id }}">
   <a href="{{ product.url }}" class="card-link-wrapper" aria-label="View {{ product.title | escape }}">
+    
+    {% comment %} Image Container - Fixed 3:4 Aspect Ratio via CSS {% endcomment %}
     <div class="image-inner glass-panel">
       {%- if product.featured_media -%}
-        {% comment %} Main Image with Performance-First Srcset {% endcomment %}
+        
+        {% comment %} Main Image: Object-fit cover ensures no distortion {% endcomment %}
         {{ product.featured_media | image_url: width: 800 | image_tag:
           loading: 'lazy',
+          widths: '300, 600, 800',
           sizes: '(max-width: 768px) 50vw, 25vw',
-          srcset: '300, 600, 800',
           class: 'main-card-img',
           alt: product.title | escape
         }}
 
-        {% comment %} Secondary Hover Image {% endcomment %}
+        {% comment %} Secondary Hover Image: Synced with aspect ratio {% endcomment %}
         {%- if product.media[1] != blank -%}
-          {{ product.media[1] | image_url: width: 600 | image_tag:
+          {{ product.media[1] | image_url: width: 800 | image_tag:
             loading: 'lazy',
+            widths: '300, 600, 800',
             class: 'hover-card-img',
             alt: product.title | escape
           }}
         {%- endif -%}
+        
       {%- else -%}
-        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% comment %} Placeholder for products without images {% endcomment %}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg hero-img' }}
       {%- endif -%}
       
-      {% comment %} Dynamic Badges {% endcomment %}
+      {% comment %} Luxury Badges {% endcomment %}
       <div class="card-badges">
         {%- if product.available == false -%}
           <span class="badge sold-out">OUT OF STOCK</span>
@@ -38,11 +44,14 @@
       </div>
     </div>
 
+    {% comment %} Product Info Section {% endcomment %}
     <div class="card-info text-center">
       <h3 class="product-title-small">{{ product.title | uppercase }}</h3>
       <div class="product-price-wrapper gold-text">
         {%- if product.compare_at_price > product.price -%}
-          <span class="old-price">{{ product.compare_at_price | money }}</span>
+          <span class="old-price" style="text-decoration: line-through; opacity: 0.6; margin-right: 10px; font-size: 0.9em;">
+            {{ product.compare_at_price | money }}
+          </span>
         {%- endif -%}
         <span class="current-price">{{ product.price | money }}</span>
       </div>
@@ -66,7 +75,7 @@
   </form>
 </div>
 
-{% comment %} SEO - JSON-LD Structured Data {% endcomment %}
+{% comment %} SEO - JSON-LD Structured Data remains the same {% endcomment %}
 <script type="application/ld+json">
 {
   "@context": "http://schema.org/",
