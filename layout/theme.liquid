@@ -27,20 +27,30 @@
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     
-    {%- unless settings.font_heading.system? -%}
-      <link rel="preload" as="font" href="{{ settings.font_heading | font_url }}" type="font/woff2" crossorigin>
+    {% comment %} Setup Professional Fonts {% endcomment %}
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_base_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_base_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
     
     <style>
+      {% comment %} Dynamic CSS Variables linked to Settings Schema {% endcomment %}
+      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+      {{ settings.type_base_font | font_face: font_display: 'swap' }}
+
       :root {
         --elite-gold-primary: {{ settings.gold_primary | default: '#D4AF37' }};
-        --elite-gold-glow: {{ settings.gold_primary | color_modify: 'alpha', 0.3 }};
+        --elite-gold-glow: {{ settings.gold_glow | default: 'rgba(212, 175, 55, 0.3)' }};
         --bg-color: {{ settings.bg_color | default: '#050505' }};
-        --main-font: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
-        --body-font: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+        
+        --header-font: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+        --body-font: {{ settings.type_base_font.family }}, {{ settings.type_base_font.fallback_families }};
+        
         --glass-blur: {{ settings.blur_intensity | default: 20 }}px;
         --transition-apple: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       }
@@ -51,19 +61,7 @@
         color: #ffffff;
         margin: 0;
         overflow-x: hidden;
-      }
-
-      .visually-hidden {
-        position: absolute !important;
-        width: 1px; height: 1px; padding: 0; margin: -1px;
-        overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
-      }
-
-      /* Preloader CSS quick fix */
-      #Preloader {
-        position: fixed; inset: 0; background: var(--bg-color);
-        z-index: 10000; display: flex; justify-content: center;
-        align-items: center; transition: opacity 0.8s ease;
+        -webkit-font-smoothing: antialiased;
       }
     </style>
 
@@ -72,26 +70,29 @@
     {%- if request.locale.iso_code == 'ar' -%}
       <style>
         body { direction: rtl; text-align: right; letter-spacing: 0 !important; }
-        .header-grid, .product-flex-layout, .footer-grid, .cart-item-row { direction: rtl; }
+        .header-grid, .elite-grid, .footer-grid { direction: rtl; }
         .nav-link { margin-right: 0; margin-left: 25px; }
-        .custom-cursor { display: none !important; }
       </style>
     {%- endif -%}
   </head>
 
-  <body class="gradient niche-{{ settings.theme_style }}">
+  <body class="luxury-{{ settings.theme_style | default: 'fragrance' }}">
     
     <a class="skip-to-content-link visually-hidden" href="#MainContent">
       Skip to content
     </a>
 
-    {% if settings.show_custom_cursor %}
+    {% comment %} Dynamic Cursor Control {% endcomment %}
+    {% if settings.enable_custom_cursor %}
       <div class="custom-cursor"></div>
     {% endif %}
 
-    <div id="Preloader">
-      <div class="loader-logo gold-text">{{ shop.name | uppercase }}</div>
-    </div>
+    {% comment %} Dynamic Preloader Control {% endcomment %}
+    {% if settings.enable_preloader %}
+      <div id="Preloader">
+        <div class="loader-logo gold-text">{{ shop.name | uppercase }}</div>
+      </div>
+    {% endif %}
 
     {% section 'header' %}
 
@@ -101,8 +102,7 @@
 
     {% section 'footer' %}
 
-    {% render 'predictive-search' %}
-
+    {% comment %} Global App Scripts {% endcomment %}
     <script>
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
@@ -115,6 +115,5 @@
     </script>
     
     <script src="{{ 'elite-pro.js' | asset_url }}" defer="defer"></script>
-
   </body>
 </html>
