@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "title": "404",
+        "text": "The luxury you seek is currently unavailable."
+      }
+    }
+  ,
+  "order": [
+    "main"
+  ]
+}
