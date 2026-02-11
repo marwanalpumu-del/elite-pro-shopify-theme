@@ -35,38 +35,24 @@
       <link rel="preload" as="font" href="{{ settings.type_base_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
 
-    {% comment %} --- Core Stylesheets --- {% endcomment %}
+    {% comment %} --- Core Stylesheets (Merged Elite Master CSS) --- {% endcomment %}
     {{ 'base.css' | asset_url | stylesheet_tag }}
-    {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
+    {{ 'elite-master.css' | asset_url | stylesheet_tag }}
     
     <style>
-      {% comment %} 1. Render Shopify Fonts {% endcomment %}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
       {{ settings.type_base_font | font_face: font_display: 'swap' }}
 
-      {% comment %} 2. Global CSS Engine Variables {% endcomment %}
       :root {
         --bg-color: {{ settings.bg_color | default: '#050505' }};
         --elite-gold-primary: {{ settings.gold_primary | default: '#D4AF37' }};
         --elite-gold-glow: {{ settings.gold_glow | default: 'rgba(212, 175, 55, 0.3)' }};
-        
         --header-font: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
         --body-font: {{ settings.type_base_font.family }}, {{ settings.type_base_font.fallback_families }};
-        
         --glass-blur: {{ settings.blur_intensity | default: 15 }}px;
         --transition-apple: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      body {
-        background-color: var(--bg-color);
-        font-family: var(--body-font);
-        color: #ffffff;
-        margin: 0;
-        overflow-x: hidden;
-        -webkit-font-smoothing: antialiased;
-      }
-
-      {% comment %} Handle RTL for Arabic Locale {% endcomment %}
       [lang="ar"] body {
         direction: rtl;
         text-align: right;
@@ -79,22 +65,17 @@
 
   <body class="luxury-{{ settings.theme_style | default: 'elite' }} gradient">
     
+    {% comment %} --- UI Components (Preloader & Cursor Integrated) --- {% endcomment %}
+    <div id="Preloader">
+      <div class="loader-logo gold-text" style="font-family: var(--header-font);">{{ shop.name | uppercase }}</div>
+    </div>
+    
+    <div class="custom-cursor"></div>
+
     <a class="skip-to-content-link visually-hidden" href="#MainContent">
       Skip to content
     </a>
 
-    {% comment %} --- UI Enhancements --- {% endcomment %}
-    {% if settings.enable_custom_cursor %}
-      <div class="custom-cursor"></div>
-    {% endif %}
-
-    {% if settings.enable_preloader %}
-      <div id="Preloader">
-        <div class="loader-logo gold-text">{{ shop.name | uppercase }}</div>
-      </div>
-    {% endif %}
-
-    {% comment %} --- Structure --- {% endcomment %}
     {% section 'header' %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
@@ -113,14 +94,9 @@
         cart_update_url: '{{ routes.cart_update_url }}',
         predictive_search_url: '{{ routes.predictive_search_url }}'
       };
-
-      window.cartStrings = {
-        error: `{{ 'sections.cart.cart_error' | t }}`,
-        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`
-      };
     </script>
     
-    {% comment %} --- Core Scripts --- {% endcomment %}
-    <script src="{{ 'elite-pro.js' | asset_url }}" defer="defer"></script>
+    {% comment %} --- Core Scripts (Merged Elite Engine JS) --- {% endcomment %}
+    <script src="{{ 'elite-engine.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
