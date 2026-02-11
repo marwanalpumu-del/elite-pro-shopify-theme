@@ -3,6 +3,7 @@
   "presets": {
     "Default": {
       "theme_style": "fragrance",
+      "favicon": "",
       "gold_primary": "#D4AF37",
       "gold_light": "#F9E2AF",
       "bg_color": "#050505",
