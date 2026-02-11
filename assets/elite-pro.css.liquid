@@ -1,8 +1,9 @@
 /*
   ==========================================================================
-  ELITE PRO - LUXURY ENGINE (Liquid Processed)
+  ELITE PRO - MASTER LUXURY ENGINE
+  Version: 1.0.0 (Production Ready)
   Framework: Shopify Online Store 2.0
-  Style: Cinematic Gold & Glassmorphism
+  Design: Gold Aesthetics & Glassmorphism
   ==========================================================================
 */
 
@@ -47,6 +48,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--header-font);
   font-weight: 400;
   letter-spacing: 2px;
+  margin: 0;
 }
 
 /* Custom Luxury Scrollbar */
@@ -80,7 +82,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .hero-video, .hero-img {
   position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-  object-fit: cover; /* Ensures image/video fills space without distortion */
+  object-fit: cover;
   z-index: 1;
 }
 
@@ -88,6 +90,15 @@ h1, h2, h3, h4, h5, h6 {
   position: relative; z-index: 2; width: 100%; height: 100%;
   background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
   display: flex; align-items: center; justify-content: center;
+  text-align: center;
+}
+
+.hero-title {
+  color: var(--elite-gold-primary);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  letter-spacing: 10px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
 }
 
 /* --- 4. PRODUCT GRID & ANTI-DISTORTION ENGINE --- */
@@ -98,10 +109,12 @@ h1, h2, h3, h4, h5, h6 {
   padding: 50px 5%;
 }
 
+.elite-pro-card { position: relative; transition: var(--transition-apple); }
+
 .image-inner { 
   border-radius: 12px; 
   overflow: hidden; 
-  aspect-ratio: 3/4; /* Maintains uniform card height */
+  aspect-ratio: 3/4; 
   position: relative; 
   background: #111; 
 }
@@ -109,16 +122,37 @@ h1, h2, h3, h4, h5, h6 {
 .main-card-img, .hover-card-img {
   width: 100%; 
   height: 100%; 
-  object-fit: cover; /* PREVENTS IMAGE STRETCHING */
+  object-fit: cover; 
   object-position: center;
   transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hover-card-img { position: absolute; top: 0; left: 0; opacity: 0; }
 .elite-pro-card:hover .hover-card-img { opacity: 1; }
-.elite-pro-card:hover .main-card-img { transform: scale(1.08); }
+.elite-pro-card:hover .main-card-img { transform: scale(1.1); }
 
-/* --- 5. INTERACTIVE UI (CURSOR & PRELOADER) --- */
+/* --- 5. BUTTONS & UI ELEMENTS --- */
+.btn-elite, .btn-quick-add {
+  display: inline-block;
+  padding: 15px 40px;
+  border: 1px solid var(--elite-gold-primary);
+  color: var(--elite-gold-primary);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: var(--transition-apple);
+  background: transparent;
+  cursor: pointer;
+}
+
+.btn-elite:hover, .btn-quick-add:hover {
+  background: var(--elite-gold-primary);
+  color: var(--bg-color);
+  box-shadow: 0 0 20px var(--elite-gold-glow);
+}
+
+/* --- 6. INTERACTIVE ENGINE (CURSOR & PRELOADER) --- */
 .custom-cursor {
   width: 20px; height: 20px; background: var(--elite-gold-primary);
   position: fixed; border-radius: 50%; pointer-events: none;
@@ -129,16 +163,31 @@ h1, h2, h3, h4, h5, h6 {
 #Preloader {
   position: fixed; inset: 0; background: var(--bg-color); z-index: 10000;
   display: flex; justify-content: center; align-items: center;
-  transition: opacity 0.8s ease;
 }
 
-/* --- 6. RESPONSIVE MEDIA QUERIES --- */
+.loader-logo {
+  font-size: 1.5rem;
+  letter-spacing: 5px;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* --- 7. ANIMATIONS & REVEAL SYSTEM --- */
+.reveal { opacity: 0; transform: translateY(30px); transition: var(--transition-smooth); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* --- 8. RESPONSIVE ENGINE --- */
 @media screen and (max-width: 1024px) {
   .elite-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media screen and (max-width: 768px) {
-  .elite-grid { grid-template-columns: 1fr; }
-  .elite-hero { height: 70vh; }
-  .custom-cursor { display: none; } /* Hide cursor on touch devices */
+  .elite-grid { grid-template-columns: 1fr; gap: 20px; }
+  .hero-title { letter-spacing: 4px; }
+  .custom-cursor { display: none; }
+  #EliteHeader { padding: 15px 5%; }
 }
