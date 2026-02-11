@@ -10,6 +10,14 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  .luxury-line {
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .reveal.active .luxury-line {
+    width: 100px !important;
+  }
 {%- endstyle -%}
 
 <div class="related-products-wrapper section-{{ section.id }}-padding reveal">
@@ -19,10 +27,13 @@
   >
     {% if recommendations.performed and recommendations.products_count > 0 %}
       <div class="container">
+        
+        {% comment %} Optimized Cinematic Header {% endcomment %}
         <div class="section-header text-center" style="margin-bottom: 50px;">
-          <h2 class="gold-text" style="font-family: var(--header-font); font-size: 2.5rem; letter-spacing: 2px;">
+          <h2 class="gold-text uppercase" style="font-size: clamp(2.4rem, 5vw, 3.8rem); letter-spacing: 4px; font-weight: 300; margin-bottom: 15px;">
             {{ section.settings.heading | escape }}
           </h2>
+          <div class="luxury-line" style="width: 60px; height: 1px; background: var(--elite-gold-primary); margin: 0 auto;"></div>
         </div>
 
         <div class="elite-grid">
@@ -39,34 +50,44 @@
 </div>
 
 {% javascript %}
-  class ProductRecommendations extends HTMLElement {
-    constructor() {
-      super();
+  /**
+   * Product Recommendations Web Component
+   * Handles asynchronous fetching of related products based on Shopify's AI API
+   */
+  if (!customElements.get('product-recommendations')) {
+    class ProductRecommendations extends HTMLElement {
+      constructor() {
+        super();
 
-      const handleIntersection = (entries, observer) => {
-        if (!entries[0].isIntersecting) return;
-        observer.unobserve(this);
+        const handleIntersection = (entries, observer) => {
+          if (!entries[0].isIntersecting) return;
+          observer.unobserve(this);
 
-        fetch(this.dataset.url)
-          .then(response => response.text())
-          .then(text => {
-            const html = new DOMParser().parseFromString(text, 'text/html');
-            const recommendations = html.querySelector('product-recommendations');
+          fetch(this.dataset.url)
+            .then(response => response.text())
+            .then(text => {
+              const html = new DOMParser().parseFromString(text, 'text/html');
+              const recommendations = html.querySelector('product-recommendations');
 
-            if (recommendations && recommendations.innerHTML.trim().length) {
-              this.innerHTML = recommendations.innerHTML;
-            }
-          })
-          .catch(e => {
-            console.error('Recommendations Error:', e);
-          });
-      };
+              if (recommendations && recommendations.innerHTML.trim().length) {
+                this.innerHTML = recommendations.innerHTML;
+                
+                // Re-trigger reveal animations for dynamically injected content
+                if (window.EliteEngine && typeof window.EliteEngine.initScrollReveal === 'function') {
+                  window.EliteEngine.initScrollReveal();
+                }
+              }
+            })
+            .catch(e => {
+              console.error('Elite Engine Error: Recommendations fetch failed', e);
+            });
+        };
 
-      new IntersectionObserver(handleIntersection.bind(this), {rootMargin: '0px 0px 400px 0px'}).observe(this);
+        new IntersectionObserver(handleIntersection.bind(this), {rootMargin: '0px 0px 400px 0px'}).observe(this);
+      }
     }
+    customElements.define('product-recommendations', ProductRecommendations);
   }
-
-  customElements.define('product-recommendations', ProductRecommendations);
 {% endjavascript %}
 
 {% schema %}
@@ -75,6 +96,10 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
     {
       "type": "text",
       "id": "heading",
@@ -98,7 +123,7 @@
     },
     {
       "type": "header",
-      "content": "Section Padding"
+      "content": "Layout & Padding"
     },
     {
       "type": "range",
