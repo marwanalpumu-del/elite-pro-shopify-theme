@@ -35,10 +35,7 @@
       <link rel="preload" as="font" href="{{ settings.type_base_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
 
-    {% comment %} 
-      --- Core Stylesheets ---
-      IMPORTANT: Call 'elite-pro.css' to render 'elite-pro.css.liquid'
-    {% endcomment %}
+    {% comment %} --- Core Stylesheets --- {% endcomment %}
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
     
@@ -52,7 +49,7 @@
         --elite-gold-glow: {{ settings.gold_glow | default: 'rgba(212, 175, 55, 0.3)' }};
         --header-font: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
         --body-font: {{ settings.type_base_font.family }}, {{ settings.type_base_font.fallback_families }};
-        --glass-blur: {{ settings.blur_intensity | default: 15 }}px;
+        --glass-blur: {{ settings.blur_intensity | default: 20 }}px;
         --transition-apple: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
@@ -66,18 +63,21 @@
     {{ content_for_header }}
   </head>
 
-  <body class="luxury-{{ settings.theme_style | default: 'elite' }} gradient">
+  <body class="luxury-elite gradient">
     
-    {% comment %} --- UI Components (Preloader & Cursor) --- {% endcomment %}
-    <div id="Preloader">
-      <div class="loader-logo gold-text" style="font-family: var(--header-font);">{{ shop.name | uppercase }}</div>
-    </div>
+    {% comment %} --- Dynamic Preloader Logic --- {% endcomment %}
+    {%- if settings.enable_preloader -%}
+      <div id="Preloader">
+        <div class="loader-logo gold-text" style="font-family: var(--header-font);">{{ shop.name | uppercase }}</div>
+      </div>
+    {%- endif -%}
     
-    <div class="custom-cursor"></div>
+    {% comment %} --- Dynamic Custom Cursor Logic --- {% endcomment %}
+    {%- if settings.enable_custom_cursor -%}
+      <div class="custom-cursor"></div>
+    {%- endif -%}
 
-    <a class="skip-to-content-link visually-hidden" href="#MainContent">
-      Skip to content
-    </a>
+    <a class="skip-to-content-link visually-hidden" href="#MainContent">Skip to content</a>
 
     {% section 'header' %}
 
@@ -87,7 +87,6 @@
 
     {% section 'footer' %}
 
-    {% comment %} --- Global Logic Config --- {% endcomment %}
     <script>
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
@@ -99,7 +98,6 @@
       };
     </script>
     
-    {% comment %} --- Core Script --- {% endcomment %}
     <script src="{{ 'elite-engine.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
