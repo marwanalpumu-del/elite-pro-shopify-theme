@@ -1,10 +1,9 @@
 /**
  * Elite Pro - Premium Theme Engine
  * -----------------------------------------------------------------------------
- * This architecture follows ES6 Class standards for modularity and performance.
- * Features: AJAX Cart, Predictive Search, Intersection Observer, Custom Cursor.
- *
- * @namespace EliteTheme
+ * Version: 1.0.0
+ * Architecture: ES6 Class modules
+ * Standards: Shopify Online Store 2.0
  */
 
 class EliteTheme {
@@ -12,9 +11,6 @@ class EliteTheme {
     this.init();
   }
 
-  /**
-   * Initializes all core theme modules
-   */
   init() {
     this.initPreloader();
     this.initScrollReveal();
@@ -29,7 +25,6 @@ class EliteTheme {
 
   /**
    * 1. Preloader Logic
-   * Handles smooth entrance animation and DOM removal
    */
   initPreloader() {
     const preloader = document.getElementById('Preloader');
@@ -47,8 +42,7 @@ class EliteTheme {
   }
 
   /**
-   * 2. Cinematic Scroll Reveal
-   * Uses Intersection Observer API for high-performance entrance animations
+   * 2. Cinematic Scroll Reveal (Performance Optimized)
    */
   initScrollReveal() {
     const observerOptions = { 
@@ -69,8 +63,7 @@ class EliteTheme {
   }
 
   /**
-   * 3. Sticky Header Animation
-   * Toggles classes based on scroll depth for glassmorphism effects
+   * 3. Sticky Header
    */
   initStickyHeader() {
     const header = document.getElementById('EliteHeader');
@@ -84,11 +77,9 @@ class EliteTheme {
 
   /**
    * 4. Custom Cinematic Cursor
-   * Optimized mouse tracking with requestAnimationFrame
    */
   initCustomCursor() {
     const cursor = document.querySelector('.custom-cursor');
-    // Disable on touch devices for accessibility
     if (!cursor || ('ontouchstart' in window)) return;
 
     document.addEventListener('mousemove', (e) => {
@@ -107,7 +98,6 @@ class EliteTheme {
 
   /**
    * 5. Predictive AJAX Search
-   * Fetches product suggestions via Shopify Search API (JSON)
    */
   initPredictiveSearch() {
     const searchInput = document.querySelector('input[name="q"]');
@@ -132,11 +122,10 @@ class EliteTheme {
             const products = data.resources.results.products;
             this.renderSearchResults(products, resultsContainer);
           })
-          .catch(err => console.error("Predictive Search Error:", err));
+          .catch(err => console.error("Search API Error:", err));
       }, 300);
     });
 
-    // Close results when clicking outside
     document.addEventListener('click', (e) => {
       if (!searchInput.contains(e.target) && !resultsContainer.contains(e.target)) {
         resultsContainer.style.display = 'none';
@@ -170,7 +159,6 @@ class EliteTheme {
 
   /**
    * 6. AJAX Quick Add
-   * Submits form data to Shopify Cart API without page reload
    */
   initAjaxCart() {
     document.querySelectorAll('.quick-add-form, .elite-product-form').forEach(form => {
@@ -192,7 +180,8 @@ class EliteTheme {
           if (response.ok) {
             this.updateCartCounter();
             const originalLabel = submitBtn.innerHTML;
-            submitBtn.innerHTML = 'ADDED ✨';
+            // Using a generic success icon for global appeal
+            submitBtn.innerHTML = 'SUCCESS ✨';
             
             setTimeout(() => {
                submitBtn.innerHTML = originalLabel;
@@ -200,7 +189,7 @@ class EliteTheme {
             }, 2000);
           }
         } catch (err) {
-          console.error('AJAX Cart Error:', err);
+          console.error('Cart API Error:', err);
           submitBtn.classList.remove('loading');
         }
       });
@@ -208,8 +197,7 @@ class EliteTheme {
   }
 
   /**
-   * 7. Product Gallery Logic
-   * Smoothly transitions main product images on thumbnail interaction
+   * 7. Product Gallery
    */
   initProductGallery() {
     window.updateProductImage = (src, element, sectionId) => {
@@ -232,9 +220,6 @@ class EliteTheme {
     };
   }
 
-  /**
-   * Global Cart Counter Sync
-   */
   async updateCartCounter() {
     try {
       const res = await fetch('/cart.js');
@@ -248,7 +233,6 @@ class EliteTheme {
   }
 }
 
-// Initialize Theme Engine on DOM Content Loaded
 document.addEventListener('DOMContentLoaded', () => {
   window.EliteEngine = new EliteTheme();
 });
