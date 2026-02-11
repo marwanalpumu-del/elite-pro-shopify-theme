@@ -1,25 +1,24 @@
 /*
   ==========================================================================
-  ELITE PRO - MASTER STYLESHEET (Official Production Version)
-  Framework: Shopify Online Store 2.0 Ready
-  Design: Luxury Glassmorphism & Cinematic UI
-  Note: Variables are synced with settings_schema.json
+  ELITE PRO - LUXURY ENGINE (Liquid Processed)
+  Framework: Shopify Online Store 2.0
+  Style: Cinematic Gold & Glassmorphism
   ==========================================================================
 */
 
 /* --- 1. THEME ENGINE & DYNAMIC VARIABLES --- */
 :root {
-  /* Dynamic Variables from Shopify Settings */
-  --bg-color: {{ settings.bg_color | default: '#000000' }};
+  /* Dynamic Settings from Shopify Admin */
+  --bg-color: {{ settings.bg_color | default: '#050505' }};
   --elite-gold-primary: {{ settings.gold_primary | default: '#D4AF37' }};
-  --elite-gold-glow: {{ settings.gold_glow | default: 'rgba(212, 175, 55, 0.5)' }};
+  --elite-gold-glow: {{ settings.gold_glow | default: 'rgba(212, 175, 55, 0.3)' }};
   --glass-blur: {{ settings.blur_intensity | default: 15 }}px;
   
-  /* Dynamic Typography */
+  /* Dynamic Typography Engine */
   --body-font: {{ settings.type_base_font.family }}, {{ settings.type_base_font.fallback_families }};
   --header-font: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
 
-  /* Fixed Engine Constants */
+  /* Performance-Optimized Transitions */
   --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-apple: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --main-radius: 20px;
@@ -27,7 +26,7 @@
   --panel-border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* --- 2. GLOBAL & SYSTEM ELEMENTS --- */
+/* --- 2. GLOBAL RESET & BASE STYLES --- */
 body {
   background-color: var(--bg-color);
   font-family: var(--body-font);
@@ -38,17 +37,24 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Support for Arabic Right-to-Left (RTL) */
+[lang="ar"] body {
+  direction: rtl;
+  text-align: right;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--header-font);
-  font-weight: 400; /* Luxury standard */
+  font-weight: 400;
   letter-spacing: 2px;
 }
 
 /* Custom Luxury Scrollbar */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg-color); }
 ::-webkit-scrollbar-thumb { background: var(--elite-gold-primary); border-radius: 10px; }
 
+/* Global Utilities */
 .gold-text {
   color: var(--elite-gold-primary);
   text-shadow: 0 0 15px var(--elite-gold-glow);
@@ -60,41 +66,9 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border: var(--panel-border);
   border-radius: var(--main-radius);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
-/* Skeleton Loading Effect */
-.skeleton {
-  background: linear-gradient(90deg, #111 25%, #222 50%, #111 75%);
-  background-size: 200% 100%;
-  animation: eliteLoading 1.5s infinite linear;
-}
-
-@keyframes eliteLoading { 
-  to { background-position: -200% 0; } 
-}
-
-/* --- 3. DYNAMIC HEADER & NAVIGATION --- */
-#EliteHeader {
-  position: fixed;
-  top: 0; left: 0; right: 0; z-index: 1000;
-  padding: 30px 5%;
-  transition: var(--transition-smooth);
-  background: transparent;
-}
-
-#EliteHeader.is-scrolled {
-  padding: 15px 5%;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.header-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
-.nav-link { margin-right: 25px; text-decoration: none; color: #fff; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.7; transition: 0.3s; }
-.nav-link:hover { opacity: 1; color: var(--elite-gold-primary); }
-
-/* --- 4. HERO & CONTENT SECTIONS --- */
+/* --- 3. HERO SECTION (CINEMATIC) --- */
 .elite-hero {
   position: relative; 
   height: 100vh; 
@@ -105,16 +79,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-video, .hero-img {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+  object-fit: cover; /* Ensures image/video fills space without distortion */
+  z-index: 1;
 }
 
 .hero-overlay {
   position: relative; z-index: 2; width: 100%; height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.7));
   display: flex; align-items: center; justify-content: center;
 }
 
-/* --- 5. PRODUCT GRID & ENHANCED CARDS --- */
+/* --- 4. PRODUCT GRID & ANTI-DISTORTION ENGINE --- */
 .elite-grid {
   display: grid; 
   grid-template-columns: repeat(4, 1fr); 
@@ -122,15 +98,19 @@ h1, h2, h3, h4, h5, h6 {
   padding: 50px 5%;
 }
 
-.elite-pro-card { position: relative; transition: var(--transition-apple); }
-
 .image-inner { 
-  border-radius: 15px; overflow: hidden; aspect-ratio: 3/4; 
-  position: relative; background: #111; 
+  border-radius: 12px; 
+  overflow: hidden; 
+  aspect-ratio: 3/4; /* Maintains uniform card height */
+  position: relative; 
+  background: #111; 
 }
 
 .main-card-img, .hover-card-img {
-  width: 100%; height: 100%; object-fit: cover;
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; /* PREVENTS IMAGE STRETCHING */
+  object-position: center;
   transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -138,62 +118,7 @@ h1, h2, h3, h4, h5, h6 {
 .elite-pro-card:hover .hover-card-img { opacity: 1; }
 .elite-pro-card:hover .main-card-img { transform: scale(1.08); }
 
-/* Quick Add Button */
-.btn-quick-add {
-  width: 100%; margin-top: 15px; padding: 12px;
-  background: transparent; border: 1px solid rgba(255,255,255,0.1);
-  color: #fff; font-size: 0.7rem; font-weight: bold; cursor: pointer;
-  transition: var(--transition-apple); border-radius: 10px;
-  text-transform: uppercase; letter-spacing: 1px;
-}
-.btn-quick-add:hover:not([disabled]) {
-  background: #fff; color: #000; border-color: #fff;
-}
-
-/* --- 6. LUXURY PREDICTIVE SEARCH UI --- */
-#predictive-search-results {
-  position: absolute;
-  top: calc(100% + 15px);
-  right: 0;
-  width: 380px;
-  max-height: 480px;
-  overflow-y: auto;
-  z-index: 1001;
-  padding: 15px;
-  background: var(--panel-bg);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: var(--panel-border);
-  border-radius: 15px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-  display: none;
-}
-
-.predictive-item {
-  display: flex; align-items: center; gap: 15px; padding: 12px;
-  text-decoration: none; border-radius: 10px; transition: var(--transition-apple);
-  border: 1px solid rgba(255, 255, 255, 0.03); background: rgba(255, 255, 255, 0.02);
-  margin-bottom: 8px;
-}
-
-.predictive-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--elite-gold-primary);
-  transform: translateX(-5px);
-}
-
-/* --- 7. REVEAL SYSTEM --- */
-.reveal { 
-  opacity: 0; 
-  transform: translateY(30px); 
-  transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1); 
-}
-.reveal.active { 
-  opacity: 1; 
-  transform: translateY(0); 
-}
-
-/* --- 8. CUSTOM CURSOR & PRELOADER --- */
+/* --- 5. INTERACTIVE UI (CURSOR & PRELOADER) --- */
 .custom-cursor {
   width: 20px; height: 20px; background: var(--elite-gold-primary);
   position: fixed; border-radius: 50%; pointer-events: none;
@@ -204,15 +129,16 @@ h1, h2, h3, h4, h5, h6 {
 #Preloader {
   position: fixed; inset: 0; background: var(--bg-color); z-index: 10000;
   display: flex; justify-content: center; align-items: center;
+  transition: opacity 0.8s ease;
 }
 
-/* --- 9. RESPONSIVE ENGINE --- */
+/* --- 6. RESPONSIVE MEDIA QUERIES --- */
 @media screen and (max-width: 1024px) {
   .elite-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media screen and (max-width: 768px) {
   .elite-grid { grid-template-columns: 1fr; }
-  .header-grid { grid-template-columns: 1fr auto; }
-  .nav-link { display: none; } /* Hide desktop nav for mobile menu */
+  .elite-hero { height: 70vh; }
+  .custom-cursor { display: none; } /* Hide cursor on touch devices */
 }
