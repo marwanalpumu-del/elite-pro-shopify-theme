@@ -1,0 +1,16 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "theme_style": "fragrance",
+      "gold_primary": "#D4AF37",
+      "gold_light": "#F9E2AF",
+      "bg_color": "#050505",
+      "blur_intensity": 25,
+      "type_header_font": "playfair_display_n9",
+      "type_base_font": "plus_jakarta_sans_n4",
+      "social_instagram_link": "",
+      "social_twitter_link": ""
+    }
+  }
+}
