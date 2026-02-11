@@ -1,14 +1,14 @@
 {% comment %}
   Elite Pro Framework - Luxury Dynamic Header
-  Includes: Glassmorphism UI, Predictive Search Integration, and AJAX Cart Counter
+  Optimized for: Glassmorphism UI & Predictive Search
 {% endcomment %}
 
 <header id="EliteHeader" class="glass-panel">
-  <div class="container header-grid">
+  <div class="header-grid">
     
     <div class="header-left">
       <nav class="main-navigation" role="navigation">
-        {% for link in linklists.main-menu.links %}
+        {% for link in section.settings.main_menu.links %}
           <a href="{{ link.url }}" class="nav-link" data-cursor-expand>{{ link.title | uppercase }}</a>
         {% endfor %}
       </nav>
@@ -26,12 +26,11 @@
           <input 
             type="text" 
             name="q" 
-            placeholder="SEARCH..." 
+            placeholder="{{ 'general.search.placeholder' | t | default: 'SEARCH...' }}" 
             class="search-input-field"
             autocomplete="off"
             spellcheck="false"
           >
-          {% comment %} Critical: This ID links with elite-pro.js for AJAX results {% endcomment %}
           <div id="predictive-search-results" class="glass-panel" style="display: none;"></div>
         </form>
       </div>
@@ -44,21 +43,20 @@
 </header>
 
 <style>
-  /* Header Base Styles */
   #EliteHeader { 
+    position: fixed; top: 0; left: 0; right: 0;
     padding: 25px 5%; 
-    display: flex; 
-    align-items: center; 
     z-index: 1000; 
     transition: var(--transition-apple); 
     border-bottom: 1px solid rgba(255,255,255,0.05);
+    background: transparent;
   }
 
-  /* Scrolled State via JS */
   #EliteHeader.is-scrolled {
     padding: 15px 5%;
     background: rgba(5, 5, 5, 0.85);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
   }
 
   .header-grid { 
@@ -69,80 +67,49 @@
   }
 
   .shop-logo { 
-    font-family: var(--main-font); 
-    font-size: 2rem; 
+    font-family: var(--header-font); 
+    font-size: clamp(1.2rem, 2vw, 1.8rem); 
     letter-spacing: 5px; 
     text-decoration: none; 
-    font-weight: 900; 
+    font-weight: 700; 
   }
 
-  /* Navigation Styles */
   .nav-link { 
-    margin-right: 25px; 
+    margin-inline-end: 25px; 
     text-decoration: none; 
     color: #ffffff; 
-    font-size: 0.75rem; 
+    font-size: 0.7rem; 
     letter-spacing: 2px; 
     opacity: 0.6; 
     transition: var(--transition-apple); 
   }
 
-  .nav-link:hover { 
-    opacity: 1; 
-    color: var(--elite-gold-primary); 
-  }
+  .nav-link:hover { opacity: 1; color: var(--elite-gold-primary); }
 
-  /* Search Styles */
   .search-input-field { 
-    background: transparent; 
-    border: none; 
+    background: transparent; border: none; 
     border-bottom: 1px solid rgba(255,255,255,0.1); 
-    color: #ffffff; 
-    font-size: 0.7rem; 
-    padding: 5px 0; 
-    outline: none; 
-    width: 140px;
-    transition: var(--transition-apple);
-    text-transform: uppercase;
+    color: #ffffff; font-size: 0.7rem; 
+    padding: 5px 0; outline: none; width: 120px;
+    transition: var(--transition-apple); text-transform: uppercase;
   }
 
-  .search-input-field:focus {
-    width: 220px;
-    border-bottom-color: var(--elite-gold-primary);
-  }
+  .search-input-field:focus { width: 180px; border-bottom-color: var(--elite-gold-primary); }
 
-  /* Predictive Search Dropdown */
+  /* Predictive Search results styling linked to your JS */
   #predictive-search-results {
-    position: absolute;
-    top: calc(100% + 20px);
-    right: 0;
-    width: 380px;
-    max-height: 500px;
-    overflow-y: auto;
-    z-index: 1001;
-    padding: 20px;
+    position: absolute; top: calc(100% + 20px); right: 0;
+    width: 350px; max-height: 400px; overflow-y: auto;
+    z-index: 1001; padding: 15px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    animation: fadeIn 0.3s ease-out;
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  /* Support for Arabic RTL */
+  [lang="ar"] #predictive-search-results { right: auto; left: 0; }
 
-  /* Cart Count Styles */
-  .cart-trigger {
-    text-decoration: none;
-    font-size: 0.85rem;
-    margin-left: 20px;
-    font-weight: bold;
-  }
-
-  /* Responsive Design */
   @media (max-width: 1024px) {
     .header-left, .search-wrapper { display: none; }
     .header-grid { grid-template-columns: 1fr 1fr; }
-    .header-center { justify-self: start; }
     .header-right { justify-self: end; }
   }
 </style>
@@ -152,14 +119,15 @@
   "name": "Luxury Header",
   "settings": [
     {
-      "type": "header",
-      "content": "Navigation Settings"
-    },
-    {
       "type": "link_list",
       "id": "main_menu",
       "label": "Select Menu",
       "default": "main-menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Header"
     }
   ]
 }
