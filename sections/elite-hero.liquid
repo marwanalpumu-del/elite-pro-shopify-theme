@@ -1,10 +1,10 @@
 {% comment %}
-  Elite Pro Framework
-  Hero Section: Performance Optimized with Translation Support
-  Core Architecture: Shopify Online Store 2.0
+  Elite Pro Framework - Integrated Luxury Hero
+  Performance Optimized | Shopify OS 2.0
 {% endcomment %}
 
 <section class="elite-hero reveal" data-section-id="{{ section.id }}">
+  
   {%- if section.settings.video_url != blank -%}
     <video autoplay muted loop playsinline preload="auto" class="hero-video">
       <source src="{{ section.settings.video_url }}" type="video/mp4">
@@ -18,7 +18,13 @@
       preload: true 
     }}
   {%- else -%}
-    {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-img placeholder-svg' }}
+    {% comment %} 
+      Default: Displays your custom luxury banner if no image is uploaded 
+    {% endcomment %}
+    <img src="{{ 'hero-banner-luxury.jpg' | asset_url }}" 
+         alt="Elite Pro Luxury Showcase" 
+         class="hero-img" 
+         loading="eager">
   {%- endif -%}
 
   <div class="hero-overlay" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }}));">
@@ -28,12 +34,14 @@
         {%- if section.settings.title != blank -%}
           {{ section.settings.title | uppercase }}
         {%- else -%}
-          {{ 'sections.hero.title' | t | uppercase }}
+          ELITE PRO
         {%- endif -%}
       </h1>
       
       {%- if section.settings.subtitle != blank -%}
-        <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+        <p class="hero-subtitle">{{ section.settings.subtitle | uppercase }}</p>
+      {%- else -%}
+        <p class="hero-subtitle">DEFINING LUXURY</p>
       {%- endif -%}
 
       {%- if section.settings.btn_text != blank -%}
@@ -47,7 +55,7 @@
 
 {% schema %}
 {
-  "name": "Elite Hero",
+  "name": "Elite Hero Pro",
   "settings": [
     {
       "type": "header",
@@ -56,13 +64,14 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Hero Background Image"
+      "label": "Hero Background Image",
+      "info": "Leave empty to use the default Luxury Banner"
     },
     {
       "type": "text",
       "id": "video_url",
       "label": "Video MP4 URL",
-      "info": "Provide a direct .mp4 link. This overrides the background image."
+      "info": "Direct .mp4 link overrides images."
     },
     {
       "type": "range",
@@ -82,13 +91,13 @@
       "type": "text",
       "id": "title",
       "label": "Heading",
-      "placeholder": "Leave empty to use default translation"
+      "default": "ELITE PRO"
     },
     {
       "type": "text",
       "id": "subtitle",
       "label": "Subheading",
-      "default": "Exclusively Crafted for the Elite"
+      "default": "DEFINING LUXURY"
     },
     {
       "type": "header",
@@ -108,7 +117,7 @@
   ],
   "presets": [
     {
-      "name": "Elite Hero",
+      "name": "Elite Hero Pro",
       "category": "Image"
     }
   ]
