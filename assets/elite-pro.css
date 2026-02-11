@@ -1,6 +1,7 @@
 /*
-  Elite Pro - Master Stylesheet (Final Production Version)
-  Focus: High-Performance, Luxury UI, Glassmorphism, Responsive Grid
+  Elite Pro - Master Stylesheet (Official Production Version)
+  Framework: Shopify Online Store 2.0 Ready
+  Design: Luxury Glassmorphism & Cinematic UI
 */
 
 /* --- 1. THEME ENGINE & VARIABLES --- */
@@ -10,17 +11,24 @@
   --main-radius: 20px;
   --panel-bg: rgba(255, 255, 255, 0.03);
   --panel-border: 1px solid rgba(255, 255, 255, 0.1);
+  --elite-gold-primary: #D4AF37; /* Default Gold if not set in liquid */
+  --elite-gold-glow: rgba(212, 175, 55, 0.4);
 }
 
-/* --- 2. GLOBAL ELEMENTS --- */
+/* --- 2. GLOBAL & SYSTEM ELEMENTS --- */
 body {
-  background-color: var(--bg-color);
+  background-color: var(--bg-color, #050505);
   font-family: var(--body-font);
   color: #ffffff;
   margin: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: var(--elite-gold-primary); border-radius: 10px; }
 
 .gold-text {
   color: var(--elite-gold-primary);
@@ -29,11 +37,22 @@ body {
 
 .glass-panel {
   background: var(--panel-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur, 15px));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 15px));
   border: var(--panel-border);
   border-radius: var(--main-radius);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Skeleton Loading Effect */
+.skeleton {
+  background: linear-gradient(90deg, #111 25%, #222 50%, #111 75%);
+  background-size: 200% 100%;
+  animation: eliteLoading 1.5s infinite linear;
+}
+
+@keyframes eliteLoading { 
+  to { background-position: -200% 0; } 
 }
 
 /* --- 3. DYNAMIC HEADER & NAVIGATION --- */
@@ -56,7 +75,7 @@ body {
 .nav-link { margin-right: 25px; text-decoration: none; color: #fff; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.7; transition: 0.3s; }
 .nav-link:hover { opacity: 1; color: var(--elite-gold-primary); }
 
-/* --- 4. HERO SECTION --- */
+/* --- 4. HERO & CONTENT SECTIONS --- */
 .elite-hero {
   position: relative; height: 100vh; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
@@ -72,15 +91,11 @@ body {
   display: flex; align-items: center; justify-content: center;
 }
 
-.hero-title {
-  font-family: var(--header-font);
-  font-size: clamp(3rem, 8vw, 6rem);
-  letter-spacing: 10px; margin-bottom: 20px;
-}
-
 /* --- 5. PRODUCT GRID & ENHANCED CARDS --- */
 .elite-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 30px;
 }
 
 .elite-pro-card { position: relative; transition: var(--transition-apple); }
@@ -99,12 +114,6 @@ body {
 .elite-pro-card:hover .hover-card-img { opacity: 1; }
 .elite-pro-card:hover .main-card-img { transform: scale(1.08); }
 
-/* Badges */
-.card-badges { position: absolute; top: 15px; left: 15px; display: flex; flex-direction: column; gap: 5px; z-index: 3; }
-.badge { padding: 5px 12px; font-size: 0.6rem; font-weight: bold; letter-spacing: 1px; border-radius: 4px; }
-.badge.sale { background: var(--elite-gold-primary); color: #000; }
-.badge.sold-out { background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); color: #fff; }
-
 /* Quick Add Button */
 .btn-quick-add {
   width: 100%; margin-top: 15px; padding: 12px;
@@ -115,93 +124,9 @@ body {
 }
 .btn-quick-add:hover:not([disabled]) {
   background: #fff; color: #000; border-color: #fff;
-  box-shadow: 0 10px 20px rgba(255,255,255,0.1);
-}
-.btn-quick-add[disabled] { opacity: 0.5; cursor: not-allowed; }
-
-/* --- 6. PAGINATION UI --- */
-.pagination-wrapper { display: flex; justify-content: center; margin-top: 60px; }
-.pagination { padding: 15px 30px; display: flex; gap: 20px; border-radius: 100px; }
-.pagination a, .pagination span { color: #fff; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
-.pagination .current { color: var(--elite-gold-primary); text-shadow: 0 0 10px var(--elite-gold-glow); }
-
-/* --- 7. ELITE FOOTER --- */
-.elite-footer { 
-  margin-top: 100px; padding: 80px 5% 40px; 
-  border-top: 1px solid rgba(255,255,255,0.05); 
 }
 
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 50px; }
-.footer-links { list-style: none; padding: 0; }
-.footer-links li { margin-bottom: 12px; }
-.footer-links a { color: #fff; text-decoration: none; font-size: 0.85rem; opacity: 0.6; transition: 0.3s; }
-.footer-links a:hover { opacity: 1; color: var(--elite-gold-primary); padding-left: 5px; }
-
-/* --- 8. BUTTONS & INPUTS --- */
-.btn-elite {
-  padding: 18px 45px;
-  background: transparent;
-  border: 1px solid var(--elite-gold-primary);
-  color: #fff;
-  font-weight: bold;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: var(--transition-apple);
-  display: inline-block;
-  text-decoration: none;
-}
-
-.btn-elite:hover {
-  background: var(--elite-gold-primary);
-  color: #000;
-  box-shadow: 0 0 30px var(--elite-gold-glow);
-}
-
-/* --- 9. REVEAL SYSTEM --- */
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
-.reveal.active { opacity: 1; transform: translateY(0); }
-
-/* --- 10. MOBILE ADAPTATION --- */
-@media (max-width: 1024px) {
-  .elite-grid { grid-template-columns: repeat(2, 1fr); }
-  .footer-grid { grid-template-columns: 1fr; text-align: center; }
-  .header-left, .header-right .search-wrapper { display: none; }
-  .header-grid { grid-template-columns: 1fr 1fr; }
-}
-
-/* --- 11. CUSTOM CURSOR & PRELOADER --- */
-.custom-cursor {
-  width: 20px; height: 20px; 
-  background: var(--elite-gold-primary);
-  position: fixed; border-radius: 50%; pointer-events: none;
-  z-index: 9999; mix-blend-mode: difference; 
-  transition: transform 0.3s ease;
-  top: 0; left: 0; transform: translate(-50%, -50%);
-}
-
-.custom-cursor.expand { transform: translate(-50%, -50%) scale(4); opacity: 0.3; }
-
-#Preloader {
-  position: fixed; inset: 0; 
-  background: var(--bg-color); z-index: 10000;
-  display: flex; justify-content: center; align-items: center;
-  transition: opacity 0.8s ease;
-}
-
-.loader-logo {
-  font-family: var(--main-font); font-size: 2rem;
-  letter-spacing: 5px; animation: pulse-gold 2s infinite;
-}
-
-@keyframes pulse-gold {
-  0% { opacity: 0.5; transform: scale(0.95); }
-  50% { opacity: 1; transform: scale(1); }
-  100% { opacity: 0.5; transform: scale(0.95); }
-}
-
-/* --- 12. LUXURY PREDICTIVE SEARCH UI --- */
+/* --- 6. LUXURY PREDICTIVE SEARCH UI (Merged) --- */
 #predictive-search-results {
   position: absolute;
   top: calc(100% + 15px);
@@ -212,8 +137,8 @@ body {
   z-index: 1001;
   padding: 15px;
   background: var(--panel-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border: var(--panel-border);
   border-radius: 15px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
@@ -221,22 +146,11 @@ body {
   animation: eliteFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.predictive-search-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 .predictive-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 12px;
-  text-decoration: none;
-  border-radius: 10px;
-  transition: var(--transition-apple);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  background: rgba(255, 255, 255, 0.02);
+  display: flex; align-items: center; gap: 15px; padding: 12px;
+  text-decoration: none; border-radius: 10px; transition: var(--transition-apple);
+  border: 1px solid rgba(255, 255, 255, 0.03); background: rgba(255, 255, 255, 0.02);
+  margin-bottom: 8px;
 }
 
 .predictive-item:hover {
@@ -245,42 +159,39 @@ body {
   transform: translateX(-5px);
 }
 
-.predictive-item img {
-  width: 55px;
-  height: 55px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.predictive-item img { width: 55px; height: 55px; object-fit: cover; border-radius: 8px; }
+
+/* --- 7. RELATED PRODUCTS & REVEAL SYSTEM --- */
+.related-products-wrapper {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding: 80px 0;
+  margin-top: 50px;
 }
 
-.predictive-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* --- 8. MOBILE & ACCESSIVE ADAPTATION --- */
+@media (max-width: 1024px) {
+  .elite-grid { grid-template-columns: repeat(2, 1fr); }
+  .header-grid { grid-template-columns: 1fr 1fr; }
+  #predictive-search-results { width: 90vw; right: 5vw; }
 }
 
-.predictive-info .title {
-  color: #ffffff;
-  font-size: 0.8rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+/* --- 9. CUSTOM CURSOR & PRELOADER --- */
+.custom-cursor {
+  width: 20px; height: 20px; background: var(--elite-gold-primary);
+  position: fixed; border-radius: 50%; pointer-events: none;
+  z-index: 9999; mix-blend-mode: difference; 
+  transition: transform 0.3s ease; top: 0; left: 0; transform: translate(-50%, -50%);
 }
 
-.predictive-info .price {
-  font-size: 0.75rem;
-  font-weight: bold;
+#Preloader {
+  position: fixed; inset: 0; background: #050505; z-index: 10000;
+  display: flex; justify-content: center; align-items: center;
 }
 
 @keyframes eliteFadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* Mobile Tweaks for Search */
-@media (max-width: 768px) {
-  #predictive-search-results {
-    width: 90vw;
-    right: 5vw;
-  }
 }
