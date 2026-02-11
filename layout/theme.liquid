@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}">
+<html class="no-js" lang="{{ request.locale.iso_code }}" dir="{% if request.locale.iso_code == 'ar' %}rtl{% else %}ltr{% endif %}">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="theme-color" content="{{ settings.gold_primary }}">
+    <meta name="theme-color" content="{{ settings.gold_primary | default: '#D4AF37' }}">
     <link rel="canonical" href="{{ canonical_url }}">
 
     {%- if settings.favicon != blank -%}
@@ -24,10 +24,10 @@
 
     {% render 'meta-tags' %}
 
+    {% comment %} --- Performance Optimization --- {% endcomment %}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     
-    {% comment %} Setup Professional Fonts {% endcomment %}
     {%- unless settings.type_header_font.system? -%}
       <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
@@ -35,23 +35,25 @@
       <link rel="preload" as="font" href="{{ settings.type_base_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
 
+    {% comment %} --- Core Stylesheets --- {% endcomment %}
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
     
     <style>
-      {% comment %} Dynamic CSS Variables linked to Settings Schema {% endcomment %}
+      {% comment %} 1. Render Shopify Fonts {% endcomment %}
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
       {{ settings.type_base_font | font_face: font_display: 'swap' }}
 
+      {% comment %} 2. Global CSS Engine Variables {% endcomment %}
       :root {
+        --bg-color: {{ settings.bg_color | default: '#050505' }};
         --elite-gold-primary: {{ settings.gold_primary | default: '#D4AF37' }};
         --elite-gold-glow: {{ settings.gold_glow | default: 'rgba(212, 175, 55, 0.3)' }};
-        --bg-color: {{ settings.bg_color | default: '#050505' }};
         
         --header-font: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
         --body-font: {{ settings.type_base_font.family }}, {{ settings.type_base_font.fallback_families }};
         
-        --glass-blur: {{ settings.blur_intensity | default: 20 }}px;
+        --glass-blur: {{ settings.blur_intensity | default: 15 }}px;
         --transition-apple: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
@@ -63,37 +65,36 @@
         overflow-x: hidden;
         -webkit-font-smoothing: antialiased;
       }
+
+      {% comment %} Handle RTL for Arabic Locale {% endcomment %}
+      [lang="ar"] body {
+        direction: rtl;
+        text-align: right;
+        letter-spacing: 0 !important;
+      }
     </style>
 
     {{ content_for_header }}
-
-    {%- if request.locale.iso_code == 'ar' -%}
-      <style>
-        body { direction: rtl; text-align: right; letter-spacing: 0 !important; }
-        .header-grid, .elite-grid, .footer-grid { direction: rtl; }
-        .nav-link { margin-right: 0; margin-left: 25px; }
-      </style>
-    {%- endif -%}
   </head>
 
-  <body class="luxury-{{ settings.theme_style | default: 'fragrance' }}">
+  <body class="luxury-{{ settings.theme_style | default: 'elite' }} gradient">
     
     <a class="skip-to-content-link visually-hidden" href="#MainContent">
       Skip to content
     </a>
 
-    {% comment %} Dynamic Cursor Control {% endcomment %}
+    {% comment %} --- UI Enhancements --- {% endcomment %}
     {% if settings.enable_custom_cursor %}
       <div class="custom-cursor"></div>
     {% endif %}
 
-    {% comment %} Dynamic Preloader Control {% endcomment %}
     {% if settings.enable_preloader %}
       <div id="Preloader">
         <div class="loader-logo gold-text">{{ shop.name | uppercase }}</div>
       </div>
     {% endif %}
 
+    {% comment %} --- Structure --- {% endcomment %}
     {% section 'header' %}
 
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
@@ -102,7 +103,7 @@
 
     {% section 'footer' %}
 
-    {% comment %} Global App Scripts {% endcomment %}
+    {% comment %} --- Global Logic Config --- {% endcomment %}
     <script>
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
@@ -112,8 +113,14 @@
         cart_update_url: '{{ routes.cart_update_url }}',
         predictive_search_url: '{{ routes.predictive_search_url }}'
       };
+
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`
+      };
     </script>
     
+    {% comment %} --- Core Scripts --- {% endcomment %}
     <script src="{{ 'elite-pro.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
