@@ -154,3 +154,48 @@ body {
   .header-left, .header-right .search-wrapper { display: none; }
   .header-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* --- CUSTOM CURSOR & PRELOADER STYLES --- */
+.custom-cursor {
+  width: 20px; 
+  height: 20px; 
+  background: var(--elite-gold-primary);
+  position: fixed; 
+  border-radius: 50%; 
+  pointer-events: none;
+  z-index: 9999; 
+  mix-blend-mode: difference; 
+  transition: transform 0.3s ease;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%); /* لضمان تمركز الكرسر مع الماوس */
+}
+
+.custom-cursor.expand { 
+  transform: translate(-50%, -50%) scale(4); 
+  opacity: 0.3; 
+}
+
+#Preloader {
+  position: fixed; 
+  inset: 0; 
+  background: var(--bg-color); /* يستخدم لون الخلفية المختار من الإعدادات */
+  z-index: 10000;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  transition: opacity 0.8s ease;
+}
+
+.loader-logo {
+  font-family: var(--main-font);
+  font-size: 2rem;
+  letter-spacing: 5px;
+  animation: pulse-gold 2s infinite;
+}
+
+@keyframes pulse-gold {
+  0% { opacity: 0.5; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.5; transform: scale(0.95); }
+}
