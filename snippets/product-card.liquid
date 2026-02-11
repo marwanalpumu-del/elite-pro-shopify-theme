@@ -1,36 +1,45 @@
+{% comment %}
+  Elite Pro Framework - High-Performance Product Card
+  Features: Secondary Image Hover, AJAX Quick Add, SEO Structured Data, and Responsive Srcset
+{% endcomment %}
+
 <div class="elite-pro-card reveal-item" data-product-id="{{ product.id }}">
-  <a href="{{ product.url }}" class="card-link-wrapper">
+  <a href="{{ product.url }}" class="card-link-wrapper" aria-label="View {{ product.title | escape }}">
     <div class="image-inner glass-panel">
       {%- if product.featured_media -%}
-        <img 
-          srcset="{{ product.featured_media | image_url: width: 300 }} 300w,
-                  {{ product.featured_media | image_url: width: 600 }} 600w"
-          src="{{ product.featured_media | image_url: width: 600 }}"
-          sizes="(max-width: 768px) 50vw, 25vw"
-          alt="{{ product.title | escape }}"
-          loading="lazy"
-          class="main-card-img"
-          width="600" height="600"
-        >
+        {% comment %} Main Image with Performance-First Srcset {% endcomment %}
+        {{ product.featured_media | image_url: width: 800 | image_tag:
+          loading: 'lazy',
+          sizes: '(max-width: 768px) 50vw, 25vw',
+          srcset: '300, 600, 800',
+          class: 'main-card-img',
+          alt: product.title | escape
+        }}
+
+        {% comment %} Secondary Hover Image {% endcomment %}
         {%- if product.media[1] != blank -%}
-          <img src="{{ product.media[1] | image_url: width: 600 }}" 
-               class="hover-card-img" 
-               loading="lazy" 
-               width="600" height="600">
+          {{ product.media[1] | image_url: width: 600 | image_tag:
+            loading: 'lazy',
+            class: 'hover-card-img',
+            alt: product.title | escape
+          }}
         {%- endif -%}
       {%- else -%}
         {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
       {%- endif -%}
       
-      {%- if product.available == false -%}
-        <span class="badge sold-out">SOLD OUT</span>
-      {%- elsif product.compare_at_price > product.price -%}
-        <span class="badge sale">OFFER</span>
-      {%- endif -%}
+      {% comment %} Dynamic Badges {% endcomment %}
+      <div class="card-badges">
+        {%- if product.available == false -%}
+          <span class="badge sold-out">OUT OF STOCK</span>
+        {%- elsif product.compare_at_price > product.price -%}
+          <span class="badge sale">LIMITED OFFER</span>
+        {%- endif -%}
+      </div>
     </div>
 
     <div class="card-info text-center">
-      <h3 class="product-title-small">{{ product.title }}</h3>
+      <h3 class="product-title-small">{{ product.title | uppercase }}</h3>
       <div class="product-price-wrapper gold-text">
         {%- if product.compare_at_price > product.price -%}
           <span class="old-price">{{ product.compare_at_price | money }}</span>
@@ -40,21 +49,32 @@
     </div>
   </a>
 
-  <form method="post" action="/cart/add" class="quick-add-form">
+  {% comment %} AJAX-Ready Quick Add Form {% endcomment %}
+  <form method="post" action="{{ routes.cart_add_url }}" class="quick-add-form elite-product-form" enctype="multipart/form-data">
     <input type="hidden" name="id" value="{{ product.first_available_variant.id }}">
-    <button type="submit" class="btn-quick-add" data-cursor-expand>
-      <span>+ ADD TO BAG</span>
+    <input type="hidden" name="quantity" value="1">
+    
+    <button type="submit" name="add" class="btn-quick-add" {% unless product.available %}disabled{% endunless %} data-cursor-expand>
+      <span>
+        {%- if product.available -%}
+          + QUICK ADD
+        {%- else -%}
+          SOLD OUT
+        {%- endif -%}
+      </span>
     </button>
   </form>
 </div>
 
+{% comment %} SEO - JSON-LD Structured Data {% endcomment %}
 <script type="application/ld+json">
 {
   "@context": "http://schema.org/",
   "@type": "Product",
   "name": {{ product.title | json }},
   "url": {{ shop.url | append: product.url | json }},
-  "image": {{ product.featured_image | image_url: width: 600 | json }},
+  "image": {{ product.featured_image | image_url: width: 800 | json }},
+  "description": {{ product.description | strip_html | truncatewords: 30 | json }},
   "offers": {
     "@type": "Offer",
     "priceCurrency": {{ cart.currency.iso_code | json }},
