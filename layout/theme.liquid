@@ -58,20 +58,25 @@
         width: 1px; height: 1px; padding: 0; margin: -1px;
         overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
       }
+
+      /* Preloader CSS quick fix */
+      #Preloader {
+        position: fixed; inset: 0; background: var(--bg-color);
+        z-index: 10000; display: flex; justify-content: center;
+        align-items: center; transition: opacity 0.8s ease;
+      }
     </style>
 
     {{ content_for_header }}
 
-
-{%- if request.locale.iso_code == 'ar' -%}
-  <style>
-    body { direction: rtl; text-align: right; letter-spacing: 0 !important; }
-    .header-grid, .product-flex-layout, .footer-grid, .cart-item-row { direction: rtl; }
-    .nav-link { margin-right: 0; margin-left: 25px; }
-    .custom-cursor { display: none; } /* يفضل إيقاف الكرسر في النسخة العربية لثبات الأداء */
-  </style>
-{%- endif -%}
-
+    {%- if request.locale.iso_code == 'ar' -%}
+      <style>
+        body { direction: rtl; text-align: right; letter-spacing: 0 !important; }
+        .header-grid, .product-flex-layout, .footer-grid, .cart-item-row { direction: rtl; }
+        .nav-link { margin-right: 0; margin-left: 25px; }
+        .custom-cursor { display: none !important; }
+      </style>
+    {%- endif -%}
   </head>
 
   <body class="gradient niche-{{ settings.theme_style }}">
@@ -84,9 +89,8 @@
       <div class="custom-cursor"></div>
     {% endif %}
 
-    <div class="preloader" id="Preloader">
+    <div id="Preloader">
       <div class="loader-logo gold-text">{{ shop.name | uppercase }}</div>
-      <div class="loader-bar"></div>
     </div>
 
     {% section 'header' %}
@@ -102,6 +106,7 @@
     <script>
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
+        cart_url: '{{ routes.cart_url }}',
         cart_add_url: '{{ routes.cart_add_url }}',
         cart_change_url: '{{ routes.cart_change_url }}',
         cart_update_url: '{{ routes.cart_update_url }}',
@@ -111,15 +116,5 @@
     
     <script src="{{ 'elite-pro.js' | asset_url }}" defer="defer"></script>
 
-    <script>
-      // Preloader Auto-exit
-      window.addEventListener('load', () => {
-        const preloader = document.getElementById('Preloader');
-        setTimeout(() => {
-          preloader.style.opacity = '0';
-          setTimeout(() => preloader.style.display = 'none', 600);
-        }, 800);
-      });
-    </script>
   </body>
 </html>
