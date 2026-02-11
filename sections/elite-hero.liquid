@@ -1,17 +1,46 @@
-<section class="elite-hero reveal">
-  {% if section.settings.video_url != blank %}
-    <video autoplay muted loop playsinline class="hero-video">
+{% comment %}
+  Elite Pro Framework
+  Hero Section: Performance Optimized with Video Support
+{% endcomment %}
+
+<section class="elite-hero reveal" data-section-id="{{ section.id }}">
+  {%- if section.settings.video_url != blank -%}
+    {% comment %} Video is prioritized if URL is provided {% endcomment %}
+    <video autoplay muted loop playsinline preload="auto" class="hero-video">
       <source src="{{ section.settings.video_url }}" type="video/mp4">
     </video>
-  {% else %}
-    <img src="{{ section.settings.image | image_url: width: 2000 }}" class="hero-img" alt="Elite Hero">
-  {% endif %}
+  {%- elsif section.settings.image != blank -%}
+    {% comment %} 
+       Performance Optimization: 
+       'loading: eager' and 'fetchpriority: high' ensure the LCP image loads instantly.
+    {% endcomment %}
+    {{ section.settings.image | image_url: width: 2000 | image_tag: 
+      class: 'hero-img', 
+      alt: section.settings.title, 
+      loading: 'eager', 
+      fetchpriority: 'high',
+      preload: true 
+    }}
+  {%- else -%}
+    {% comment %} Placeholder for onboarding when no image/video is selected {% endcomment %}
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'hero-img placeholder-svg' }}
+  {%- endif -%}
 
-  <div class="hero-overlay">
+  <div class="hero-overlay" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }}));">
     <div class="container text-center">
-      <h1 class="hero-title">{{ section.settings.title }}</h1>
-      <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
-      <a href="{{ section.settings.btn_link }}" class="btn-elite">{{ section.settings.btn_text }}</a>
+      {%- if section.settings.title != blank -%}
+        <h1 class="hero-title">{{ section.settings.title | uppercase }}</h1>
+      {%- endif -%}
+      
+      {%- if section.settings.subtitle != blank -%}
+        <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.btn_text != blank -%}
+        <a href="{{ section.settings.btn_link | default: '#' }}" class="btn-elite" data-cursor-expand>
+          {{ section.settings.btn_text }}
+        </a>
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -20,13 +49,68 @@
 {
   "name": "Elite Hero",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Hero Image" },
-    { "type": "text", "id": "video_url", "label": "Video MP4 URL (Optional)" },
-    { "type": "text", "id": "title", "label": "Heading", "default": "DEFINING LUXURY" },
-    { "type": "text", "id": "subtitle", "label": "Subheading", "default": "Exclusively Crafted for the Elite" },
-    { "type": "text", "id": "btn_text", "label": "Button Text", "default": "EXPLORE COLLECTION" },
-    { "type": "url", "id": "btn_link", "label": "Button Link" }
+    {
+      "type": "header",
+      "content": "Media Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video MP4 URL",
+      "info": "Direct .mp4 link. Overrides image if provided."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 10,
+      "unit": "%",
+      "label": "Overlay Darkness",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "DEFINING LUXURY"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Exclusively Crafted for the Elite"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text",
+      "default": "EXPLORE COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button Link"
+    }
   ],
-  "presets": [{ "name": "Elite Hero" }]
+  "presets": [
+    {
+      "name": "Elite Hero",
+      "category": "Image"
+    }
+  ]
 }
 {% endschema %}
