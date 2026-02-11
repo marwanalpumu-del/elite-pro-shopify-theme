@@ -1,1 +1,116 @@
-
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Elite Pro Shopify Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Elite Developer",
+    "theme_documentation_url": "https://docs.eliteprotheme.com"
+  },
+  {
+    "name": "Elite Pro Branding",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Visual Identity"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon Image"
+      },
+      {
+        "type": "header",
+        "content": "Luxury Aesthetics"
+      },
+      {
+        "type": "color",
+        "id": "gold_primary",
+        "label": "Primary Accent Color",
+        "default": "#D4AF37",
+        "info": "Used for buttons, links, and gold text."
+      },
+      {
+        "type": "color",
+        "id": "gold_glow",
+        "label": "Glow/Shadow Color",
+        "default": "rgba(212, 175, 55, 0.3)"
+      },
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "Main Background Color",
+        "default": "#050505"
+      },
+      {
+        "type": "header",
+        "content": "Interactive Features"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_custom_cursor",
+        "label": "Enable Cinematic Cursor",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_preloader",
+        "label": "Enable Smooth Preloader",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Glassmorphism Logic"
+      },
+      {
+        "type": "range",
+        "id": "blur_intensity",
+        "min": 0,
+        "max": 50,
+        "step": 5,
+        "unit": "px",
+        "label": "Glass Blur Intensity",
+        "default": 20
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Elite Fonts"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "label": "Header Font",
+        "default": "playfair_display_n9"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_base_font",
+        "label": "Body Font",
+        "default": "plus_jakarta_sans_n4"
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand Connectivity"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "X (Twitter) URL"
+      }
+    ]
+  }
+]
