@@ -1,0 +1,91 @@
+{% comment %}
+  Elite Pro Framework
+  Rich Text Section: Optimized for Brand Storytelling
+{% endcomment %}
+
+<section class="elite-rich-text reveal" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="glass-panel text-{{ section.settings.content_align }}" style="padding: 60px 40px; margin: 40px 0;">
+      
+      {%- if section.settings.subheading != blank -%}
+        <span class="gold-text" style="letter-spacing: 5px; font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 20px;">
+          {{ section.settings.subheading }}
+        </span>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="rich-title" style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 30px; font-weight: 300;">
+          {{ section.settings.title }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <div class="rich-content" style="max-width: 800px; margin: 0 auto; opacity: 0.8; font-size: 1.1rem; line-height: 1.8;">
+          {{ section.settings.text }}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <div style="margin-top: 40px;">
+          <a href="{{ section.settings.button_link | default: '#' }}" class="btn-elite">
+            {{ section.settings.button_label }}
+          </a>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Elite Rich Text",
+  "settings": [
+    {
+      "type": "select",
+      "id": "content_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "SINCE 1992"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Heading",
+      "default": "The Pinnacle of Luxury"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Content Text",
+      "default": "<p>Elite Pro is designed for those who demand excellence in every detail. Our craftsmanship speaks for itself.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Elite Rich Text",
+      "category": "Text"
+    }
+  ]
+}
+{% endschema %}
