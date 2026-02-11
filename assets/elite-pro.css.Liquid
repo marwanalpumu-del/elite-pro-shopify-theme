@@ -1,17 +1,19 @@
 /*
-  Elite Pro - Master Stylesheet (Official Production Version)
+  ==========================================================================
+  ELITE PRO - MASTER STYLESHEET (Official Production Version)
   Framework: Shopify Online Store 2.0 Ready
   Design: Luxury Glassmorphism & Cinematic UI
-  Note: Variables are synced with Theme Settings (settings_schema.json)
+  Note: Variables are synced with settings_schema.json
+  ==========================================================================
 */
 
 /* --- 1. THEME ENGINE & DYNAMIC VARIABLES --- */
 :root {
   /* Dynamic Variables from Shopify Settings */
-  --bg-color: {{ settings.bg_color }};
-  --elite-gold-primary: {{ settings.gold_primary }};
-  --elite-gold-glow: {{ settings.gold_glow }};
-  --glass-blur: {{ settings.blur_intensity }}px;
+  --bg-color: {{ settings.bg_color | default: '#000000' }};
+  --elite-gold-primary: {{ settings.gold_primary | default: '#D4AF37' }};
+  --elite-gold-glow: {{ settings.gold_glow | default: 'rgba(212, 175, 55, 0.5)' }};
+  --glass-blur: {{ settings.blur_intensity | default: 15 }}px;
   
   /* Dynamic Typography */
   --body-font: {{ settings.type_base_font.family }}, {{ settings.type_base_font.fallback_families }};
@@ -38,6 +40,8 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--header-font);
+  font-weight: 400; /* Luxury standard */
+  letter-spacing: 2px;
 }
 
 /* Custom Luxury Scrollbar */
@@ -81,7 +85,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #EliteHeader.is-scrolled {
   padding: 15px 5%;
-  background: rgba(var(--bg-color), 0.85);
+  background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(15px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -92,8 +96,12 @@ h1, h2, h3, h4, h5, h6 {
 
 /* --- 4. HERO & CONTENT SECTIONS --- */
 .elite-hero {
-  position: relative; height: 100vh; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
+  position: relative; 
+  height: 100vh; 
+  overflow: hidden;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
 }
 
 .hero-video, .hero-img {
@@ -111,6 +119,7 @@ h1, h2, h3, h4, h5, h6 {
   display: grid; 
   grid-template-columns: repeat(4, 1fr); 
   gap: 30px;
+  padding: 50px 5%;
 }
 
 .elite-pro-card { position: relative; transition: var(--transition-apple); }
@@ -158,7 +167,6 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 15px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   display: none;
-  animation: eliteFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .predictive-item {
@@ -175,8 +183,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* --- 7. REVEAL SYSTEM --- */
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
-.reveal.active { opacity: 1; transform: translateY(0); }
+.reveal { 
+  opacity: 0; 
+  transform: translateY(30px); 
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1); 
+}
+.reveal.active { 
+  opacity: 1; 
+  transform: translateY(0); 
+}
 
 /* --- 8. CUSTOM CURSOR & PRELOADER --- */
 .custom-cursor {
@@ -191,7 +206,13 @@ h1, h2, h3, h4, h5, h6 {
   display: flex; justify-content: center; align-items: center;
 }
 
-@keyframes eliteFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* --- 9. RESPONSIVE ENGINE --- */
+@media screen and (max-width: 1024px) {
+  .elite-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media screen and (max-width: 768px) {
+  .elite-grid { grid-template-columns: 1fr; }
+  .header-grid { grid-template-columns: 1fr auto; }
+  .nav-link { display: none; } /* Hide desktop nav for mobile menu */
 }
