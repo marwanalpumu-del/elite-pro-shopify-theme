@@ -2,32 +2,47 @@
   Elite Pro - Master Stylesheet (Official Production Version)
   Framework: Shopify Online Store 2.0 Ready
   Design: Luxury Glassmorphism & Cinematic UI
+  Note: Variables are synced with Theme Settings (settings_schema.json)
 */
 
-/* --- 1. THEME ENGINE & VARIABLES --- */
+/* --- 1. THEME ENGINE & DYNAMIC VARIABLES --- */
 :root {
+  /* Dynamic Variables from Shopify Settings */
+  --bg-color: {{ settings.bg_color }};
+  --elite-gold-primary: {{ settings.gold_primary }};
+  --elite-gold-glow: {{ settings.gold_glow }};
+  --glass-blur: {{ settings.blur_intensity }}px;
+  
+  /* Dynamic Typography */
+  --body-font: {{ settings.type_base_font.family }}, {{ settings.type_base_font.fallback_families }};
+  --header-font: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+
+  /* Fixed Engine Constants */
   --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-apple: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   --main-radius: 20px;
   --panel-bg: rgba(255, 255, 255, 0.03);
   --panel-border: 1px solid rgba(255, 255, 255, 0.1);
-  --elite-gold-primary: #D4AF37; /* Default Gold if not set in liquid */
-  --elite-gold-glow: rgba(212, 175, 55, 0.4);
 }
 
 /* --- 2. GLOBAL & SYSTEM ELEMENTS --- */
 body {
-  background-color: var(--bg-color, #050505);
+  background-color: var(--bg-color);
   font-family: var(--body-font);
   color: #ffffff;
   margin: 0;
+  padding: 0;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--header-font);
+}
+
 /* Custom Luxury Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-track { background: var(--bg-color); }
 ::-webkit-scrollbar-thumb { background: var(--elite-gold-primary); border-radius: 10px; }
 
 .gold-text {
@@ -37,8 +52,8 @@ body {
 
 .glass-panel {
   background: var(--panel-bg);
-  backdrop-filter: blur(var(--glass-blur, 15px));
-  -webkit-backdrop-filter: blur(var(--glass-blur, 15px));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
   border: var(--panel-border);
   border-radius: var(--main-radius);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
@@ -66,7 +81,7 @@ body {
 
 #EliteHeader.is-scrolled {
   padding: 15px 5%;
-  background: rgba(5, 5, 5, 0.85);
+  background: rgba(var(--bg-color), 0.85);
   backdrop-filter: blur(15px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -87,7 +102,7 @@ body {
 
 .hero-overlay {
   position: relative; z-index: 2; width: 100%; height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(5,5,5,0.8));
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
   display: flex; align-items: center; justify-content: center;
 }
 
@@ -126,7 +141,7 @@ body {
   background: #fff; color: #000; border-color: #fff;
 }
 
-/* --- 6. LUXURY PREDICTIVE SEARCH UI (Merged) --- */
+/* --- 6. LUXURY PREDICTIVE SEARCH UI --- */
 #predictive-search-results {
   position: absolute;
   top: calc(100% + 15px);
@@ -159,26 +174,11 @@ body {
   transform: translateX(-5px);
 }
 
-.predictive-item img { width: 55px; height: 55px; object-fit: cover; border-radius: 8px; }
-
-/* --- 7. RELATED PRODUCTS & REVEAL SYSTEM --- */
-.related-products-wrapper {
-  border-top: 1px solid rgba(255,255,255,0.05);
-  padding: 80px 0;
-  margin-top: 50px;
-}
-
+/* --- 7. REVEAL SYSTEM --- */
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s ease, transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
 .reveal.active { opacity: 1; transform: translateY(0); }
 
-/* --- 8. MOBILE & ACCESSIVE ADAPTATION --- */
-@media (max-width: 1024px) {
-  .elite-grid { grid-template-columns: repeat(2, 1fr); }
-  .header-grid { grid-template-columns: 1fr 1fr; }
-  #predictive-search-results { width: 90vw; right: 5vw; }
-}
-
-/* --- 9. CUSTOM CURSOR & PRELOADER --- */
+/* --- 8. CUSTOM CURSOR & PRELOADER --- */
 .custom-cursor {
   width: 20px; height: 20px; background: var(--elite-gold-primary);
   position: fixed; border-radius: 50%; pointer-events: none;
@@ -187,7 +187,7 @@ body {
 }
 
 #Preloader {
-  position: fixed; inset: 0; background: #050505; z-index: 10000;
+  position: fixed; inset: 0; background: var(--bg-color); z-index: 10000;
   display: flex; justify-content: center; align-items: center;
 }
 
