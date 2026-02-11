@@ -1,5 +1,5 @@
 /*
-  Elite Pro - Master Stylesheet (Final Version)
+  Elite Pro - Master Stylesheet (Final Production Version)
   Focus: High-Performance, Luxury UI, Glassmorphism, Responsive Grid
 */
 
@@ -78,30 +78,46 @@ body {
   letter-spacing: 10px; margin-bottom: 20px;
 }
 
-/* --- 5. PRODUCT GRID & CARDS --- */
+/* --- 5. PRODUCT GRID & ENHANCED CARDS --- */
 .elite-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
 }
 
-.luxury-line { 
-  width: 80px; height: 2px; 
-  background: linear-gradient(90deg, transparent, var(--elite-gold-primary), transparent); 
-  margin: 20px auto 40px; 
+.elite-pro-card { position: relative; transition: var(--transition-apple); }
+
+.image-inner { 
+  border-radius: 15px; overflow: hidden; aspect-ratio: 3/4; 
+  position: relative; background: #111; 
 }
 
-.product-card { 
-  padding: 15px; transition: var(--transition-apple); 
+.main-card-img, .hover-card-img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.product-card:hover { 
-  transform: translateY(-10px); 
-  border-color: var(--elite-gold-primary);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-}
+.hover-card-img { position: absolute; top: 0; left: 0; opacity: 0; }
+.elite-pro-card:hover .hover-card-img { opacity: 1; }
+.elite-pro-card:hover .main-card-img { transform: scale(1.08); }
 
-.product-card-image { border-radius: 15px; overflow: hidden; aspect-ratio: 3/4; position: relative; background: #111; }
-.product-card-image img { width: 100%; height: 100%; object-fit: cover; transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-.product-card:hover img { transform: scale(1.1); }
+/* Badges */
+.card-badges { position: absolute; top: 15px; left: 15px; display: flex; flex-direction: column; gap: 5px; z-index: 3; }
+.badge { padding: 5px 12px; font-size: 0.6rem; font-weight: bold; letter-spacing: 1px; border-radius: 4px; }
+.badge.sale { background: var(--elite-gold-primary); color: #000; }
+.badge.sold-out { background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); color: #fff; }
+
+/* Quick Add Button */
+.btn-quick-add {
+  width: 100%; margin-top: 15px; padding: 12px;
+  background: transparent; border: 1px solid rgba(255,255,255,0.1);
+  color: #fff; font-size: 0.7rem; font-weight: bold; cursor: pointer;
+  transition: var(--transition-apple); border-radius: 10px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.btn-quick-add:hover:not([disabled]) {
+  background: #fff; color: #000; border-color: #fff;
+  box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+}
+.btn-quick-add[disabled] { opacity: 0.5; cursor: not-allowed; }
 
 /* --- 6. PAGINATION UI --- */
 .pagination-wrapper { display: flex; justify-content: center; margin-top: 60px; }
