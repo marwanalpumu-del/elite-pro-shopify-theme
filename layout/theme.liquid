@@ -35,9 +35,12 @@
       <link rel="preload" as="font" href="{{ settings.type_base_font | font_url }}" type="font/woff2" crossorigin>
     {%- endunless -%}
 
-    {% comment %} --- Core Stylesheets (Merged Elite Master CSS) --- {% endcomment %}
+    {% comment %} 
+      --- Core Stylesheets ---
+      IMPORTANT: Call 'elite-pro.css' to render 'elite-pro.css.liquid'
+    {% endcomment %}
     {{ 'base.css' | asset_url | stylesheet_tag }}
-    {{ 'elite-master.css' | asset_url | stylesheet_tag }}
+    {{ 'elite-pro.css' | asset_url | stylesheet_tag }}
     
     <style>
       {{ settings.type_header_font | font_face: font_display: 'swap' }}
@@ -65,7 +68,7 @@
 
   <body class="luxury-{{ settings.theme_style | default: 'elite' }} gradient">
     
-    {% comment %} --- UI Components (Preloader & Cursor Integrated) --- {% endcomment %}
+    {% comment %} --- UI Components (Preloader & Cursor) --- {% endcomment %}
     <div id="Preloader">
       <div class="loader-logo gold-text" style="font-family: var(--header-font);">{{ shop.name | uppercase }}</div>
     </div>
@@ -96,7 +99,7 @@
       };
     </script>
     
-    {% comment %} --- Core Scripts (Merged Elite Engine JS) --- {% endcomment %}
+    {% comment %} --- Core Script --- {% endcomment %}
     <script src="{{ 'elite-engine.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
