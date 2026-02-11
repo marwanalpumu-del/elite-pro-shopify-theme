@@ -1,23 +1,42 @@
+{% comment %}
+  Elite Pro Framework - Luxury Dynamic Header
+  Includes: Glassmorphism UI, Predictive Search Integration, and AJAX Cart Counter
+{% endcomment %}
+
 <header id="EliteHeader" class="glass-panel">
   <div class="container header-grid">
+    
     <div class="header-left">
-      <nav class="main-navigation">
+      <nav class="main-navigation" role="navigation">
         {% for link in linklists.main-menu.links %}
-          <a href="{{ link.url }}" class="nav-link" data-cursor-expand>{{ link.title }}</a>
+          <a href="{{ link.url }}" class="nav-link" data-cursor-expand>{{ link.title | uppercase }}</a>
         {% endfor %}
       </nav>
     </div>
 
     <div class="header-center">
-      <a href="/" class="shop-logo gold-text">{{ shop.name | uppercase }}</a>
+      <a href="{{ routes.root_url }}" class="shop-logo gold-text">
+        {{ shop.name | uppercase }}
+      </a>
     </div>
 
     <div class="header-right">
-      <div class="search-wrapper">
-        <input type="text" name="q" placeholder="SEARCH..." class="search-input-field">
-        {% render 'predictive-search' %}
+      <div class="search-wrapper" style="position: relative;">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+          <input 
+            type="text" 
+            name="q" 
+            placeholder="SEARCH..." 
+            class="search-input-field"
+            autocomplete="off"
+            spellcheck="false"
+          >
+          {% comment %} Critical: This ID links with elite-pro.js for AJAX results {% endcomment %}
+          <div id="predictive-search-results" class="glass-panel" style="display: none;"></div>
+        </form>
       </div>
-      <a href="/cart" class="cart-trigger gold-text" id="CartCount" data-cursor-expand>
+
+      <a href="{{ routes.cart_url }}" class="cart-trigger gold-text" id="CartCount" data-cursor-expand>
         [{{ cart.item_count }}]
       </a>
     </div>
@@ -25,10 +44,123 @@
 </header>
 
 <style>
-  #EliteHeader { padding: 25px 5%; display: flex; align-items: center; z-index: 1000; transition: var(--transition-apple); }
-  .header-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; width: 100%; }
-  .shop-logo { font-family: var(--main-font); font-size: 2rem; letter-spacing: 5px; text-decoration: none; font-weight: 900; }
-  .nav-link { margin-right: 25px; text-decoration: none; color: #fff; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.7; transition: 0.3s; }
-  .nav-link:hover { opacity: 1; color: var(--elite-gold-primary); }
-  .search-input-field { background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); color: #fff; font-size: 0.7rem; padding: 5px; outline: none; }
+  /* Header Base Styles */
+  #EliteHeader { 
+    padding: 25px 5%; 
+    display: flex; 
+    align-items: center; 
+    z-index: 1000; 
+    transition: var(--transition-apple); 
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* Scrolled State via JS */
+  #EliteHeader.is-scrolled {
+    padding: 15px 5%;
+    background: rgba(5, 5, 5, 0.85);
+    backdrop-filter: blur(15px);
+  }
+
+  .header-grid { 
+    display: grid; 
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center; 
+    width: 100%; 
+  }
+
+  .shop-logo { 
+    font-family: var(--main-font); 
+    font-size: 2rem; 
+    letter-spacing: 5px; 
+    text-decoration: none; 
+    font-weight: 900; 
+  }
+
+  /* Navigation Styles */
+  .nav-link { 
+    margin-right: 25px; 
+    text-decoration: none; 
+    color: #ffffff; 
+    font-size: 0.75rem; 
+    letter-spacing: 2px; 
+    opacity: 0.6; 
+    transition: var(--transition-apple); 
+  }
+
+  .nav-link:hover { 
+    opacity: 1; 
+    color: var(--elite-gold-primary); 
+  }
+
+  /* Search Styles */
+  .search-input-field { 
+    background: transparent; 
+    border: none; 
+    border-bottom: 1px solid rgba(255,255,255,0.1); 
+    color: #ffffff; 
+    font-size: 0.7rem; 
+    padding: 5px 0; 
+    outline: none; 
+    width: 140px;
+    transition: var(--transition-apple);
+    text-transform: uppercase;
+  }
+
+  .search-input-field:focus {
+    width: 220px;
+    border-bottom-color: var(--elite-gold-primary);
+  }
+
+  /* Predictive Search Dropdown */
+  #predictive-search-results {
+    position: absolute;
+    top: calc(100% + 20px);
+    right: 0;
+    width: 380px;
+    max-height: 500px;
+    overflow-y: auto;
+    z-index: 1001;
+    padding: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Cart Count Styles */
+  .cart-trigger {
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-left: 20px;
+    font-weight: bold;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .header-left, .search-wrapper { display: none; }
+    .header-grid { grid-template-columns: 1fr 1fr; }
+    .header-center { justify-self: start; }
+    .header-right { justify-self: end; }
+  }
 </style>
+
+{% schema %}
+{
+  "name": "Luxury Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Navigation Settings"
+    },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Select Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}
