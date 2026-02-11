@@ -1,5 +1,5 @@
 /*
-  Elite Pro - Master Stylesheet (Updated)
+  Elite Pro - Master Stylesheet (Final Version)
   Focus: High-Performance, Luxury UI, Glassmorphism, Responsive Grid
 */
 
@@ -155,47 +155,45 @@ body {
   .header-grid { grid-template-columns: 1fr 1fr; }
 }
 
-/* --- CUSTOM CURSOR & PRELOADER STYLES --- */
+/* --- 11. CUSTOM CURSOR & PRELOADER --- */
 .custom-cursor {
-  width: 20px; 
-  height: 20px; 
+  width: 20px; height: 20px; 
   background: var(--elite-gold-primary);
-  position: fixed; 
-  border-radius: 50%; 
-  pointer-events: none;
-  z-index: 9999; 
-  mix-blend-mode: difference; 
+  position: fixed; border-radius: 50%; pointer-events: none;
+  z-index: 9999; mix-blend-mode: difference; 
   transition: transform 0.3s ease;
-  top: 0;
-  left: 0;
-  transform: translate(-50%, -50%); /* لضمان تمركز الكرسر مع الماوس */
+  top: 0; left: 0; transform: translate(-50%, -50%);
 }
 
-.custom-cursor.expand { 
-  transform: translate(-50%, -50%) scale(4); 
-  opacity: 0.3; 
-}
+.custom-cursor.expand { transform: translate(-50%, -50%) scale(4); opacity: 0.3; }
 
 #Preloader {
-  position: fixed; 
-  inset: 0; 
-  background: var(--bg-color); /* يستخدم لون الخلفية المختار من الإعدادات */
-  z-index: 10000;
-  display: flex; 
-  justify-content: center; 
-  align-items: center;
+  position: fixed; inset: 0; 
+  background: var(--bg-color); z-index: 10000;
+  display: flex; justify-content: center; align-items: center;
   transition: opacity 0.8s ease;
 }
 
 .loader-logo {
-  font-family: var(--main-font);
-  font-size: 2rem;
-  letter-spacing: 5px;
-  animation: pulse-gold 2s infinite;
+  font-family: var(--main-font); font-size: 2rem;
+  letter-spacing: 5px; animation: pulse-gold 2s infinite;
 }
 
 @keyframes pulse-gold {
   0% { opacity: 0.5; transform: scale(0.95); }
   50% { opacity: 1; transform: scale(1); }
   100% { opacity: 0.5; transform: scale(0.95); }
+}
+
+/* --- 12. PREDICTIVE SEARCH RESULTS --- */
+#predictive-search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 999;
+  margin-top: 10px;
+  padding: 15px;
 }
